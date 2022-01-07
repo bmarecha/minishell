@@ -21,6 +21,7 @@ typedef struct s_cmd
 	char			*name;
 	char			**argv;
 	int				pipe;
+	char			***env;
 
 	t_redir			*i_red;
 	t_redir			*o_red;
