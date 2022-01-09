@@ -25,25 +25,24 @@ static char	*find_path(char *cmd, char **paths)
 	return (NULL);
 }
 
-static char	*split_cmd(t_cmd *cmd)
+static char	*get_real_cmd(t_cmd *cmd)
 {
 	char	**split;
 	char	**paths;
 	char	*path;
 
-	split = ft_split(cmd->name, " ");
-	if ((!split || !split[0]) && write(2, full, ft_strlen(full)))
+	if (!cmd->name)
 	{
 		write(2, "Command name missing.\n", 18);
 		return (NULL);
 	}
 	cmd->args = split;
-	if (!access(split[0], R_OK))
-		return (split[0]);
+	if (!access(cmd->name, R_OK))
+		return (cmd->name);
 	path = getenv("PATH");
 	printf("PATH value : %s\n", path);
 	paths = ft_split(path, ":");
 	if (!paths)
 		return (NULL);
-	return (find_path(split[0], paths));
+	return (find_path(cmd->name, paths));
 }

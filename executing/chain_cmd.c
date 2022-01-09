@@ -6,7 +6,7 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 19:48:16 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/07 01:19:02 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/09 13:06:23 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,15 +64,20 @@ int		dupout(int o_fd, t_cmd *cmd)
 
 int		execute_cmd(int i_fd, t_cmd *cmd, int o_fd)
 {
-	cmd->name = get_real_cmd(cmd);
 	if (!dupin(i_fd, cmd))
 		return (-1); //Free close and exit if possible
 	close(i_fd);
 	if (!dupout(o_fd, cmd))
 		return (-1); //Free close and exit if possible
 	close(o_fd);
-	if (!built_in_exe(cmd))
-		execve(cmd->name, cmd->args, *(cmd->env));
+	if (!ft_strcmp(cmd->name, "pwd") || !ft_strcmp(cmd->name, "cd")
+			|| !ft_strcmp(cmd->name, "echo") || !ft_strcmp(cmd->name, "export")
+			|| !ft_strcmp(cmd->name, "env") || !ft_strcmp(cmd->name, "unset")
+			|| !ft_strcmp(cmd->name, "exit"))
+		built_in_exe(cmd);
+	cmd->name = get_real_cmd(cmd);
+	execve(cmd->name, cmd->args, *(cmd->env));
+	return (1);
 }
 
 int		forking_cmd(int i_fd, t_cmd *cmd, int o_fd)
@@ -110,12 +115,14 @@ int		start_chain(t_cmd *cmd)
 		if (!forking_cmd(infd, cmd, pipefd[0]))
 			break ;
 		close(pipefd[0]);
+		if (infd != -1)
+			close(infd);
 		infd = pipefd[1];
 		cmd = cmd->next;
 	}
+	forking_cmd(infd, cmd, STDOUT_FILENO);
 	while (waitpid(-1, &status, WUNTRACED) > 0)
 		if (WEXITSTATUS(status))
 			write(2, "Error on a child process.\n", 26);
-	forking_cmd(infd, cmd, STDOUT_FILENO);
 	return (0);
 }
