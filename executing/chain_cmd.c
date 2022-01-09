@@ -6,13 +6,13 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 19:48:16 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/09 13:06:23 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/09 23:04:16 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int		dupin(int i_fd, t_cmd *cmd)
+int	dupin(int i_fd, t_cmd *cmd)
 {
-	int fd;
+	int	fd;
 
 	if (cmd->i_red && cmd->i_red->type == 1)
 	{
@@ -34,9 +34,9 @@ int		dupin(int i_fd, t_cmd *cmd)
 		dup2(i_fd, STDIN_FILENO);
 }
 
-int		dupout(int o_fd, t_cmd *cmd)
+int	dupout(int o_fd, t_cmd *cmd)
 {
-	int fd;
+	int	fd;
 
 	if (cmd->o_red && cmd->o_red->type >= 3)
 	{
@@ -45,9 +45,9 @@ int		dupout(int o_fd, t_cmd *cmd)
 			perror(cmd->o_red->file);
 			exit(-1); // And free if we can
 		}
-		if (cmd->o_red->type  == 3)
+		if (cmd->o_red->type == 3)
 			fd = open(cmd->o_red->file,
-				O_WRONLY | O_APPEND | O_CREAT | O_TRUNC, 00666);
+					O_WRONLY | O_APPEND | O_CREAT | O_TRUNC, 00666);
 		else
 			fd = open(cmd->o_red->file, O_WRONLY | O_CREAT | O_TRUNC, 00666);
 		if (fd == -1)
@@ -62,7 +62,7 @@ int		dupout(int o_fd, t_cmd *cmd)
 		dup2(i_fd, STDOUT_FILENO);
 }
 
-int		execute_cmd(int i_fd, t_cmd *cmd, int o_fd)
+int	execute_cmd(int i_fd, t_cmd *cmd, int o_fd)
 {
 	if (!dupin(i_fd, cmd))
 		return (-1); //Free close and exit if possible
@@ -71,16 +71,16 @@ int		execute_cmd(int i_fd, t_cmd *cmd, int o_fd)
 		return (-1); //Free close and exit if possible
 	close(o_fd);
 	if (!ft_strcmp(cmd->name, "pwd") || !ft_strcmp(cmd->name, "cd")
-			|| !ft_strcmp(cmd->name, "echo") || !ft_strcmp(cmd->name, "export")
-			|| !ft_strcmp(cmd->name, "env") || !ft_strcmp(cmd->name, "unset")
-			|| !ft_strcmp(cmd->name, "exit"))
+		|| !ft_strcmp(cmd->name, "echo") || !ft_strcmp(cmd->name, "export")
+		|| !ft_strcmp(cmd->name, "env") || !ft_strcmp(cmd->name, "unset")
+		|| !ft_strcmp(cmd->name, "exit"))
 		built_in_exe(cmd);
 	cmd->name = get_real_cmd(cmd);
 	execve(cmd->name, cmd->args, *(cmd->env));
 	return (1);
 }
 
-int		forking_cmd(int i_fd, t_cmd *cmd, int o_fd)
+int	forking_cmd(int i_fd, t_cmd *cmd, int o_fd)
 {
 	pid_t	pid;
 
@@ -99,7 +99,7 @@ int		forking_cmd(int i_fd, t_cmd *cmd, int o_fd)
 	return (1);
 }
 
-int		start_chain(t_cmd *cmd)
+int	start_chain(t_cmd *cmd)
 {
 	int		pipefd[2];
 	int		infd;
