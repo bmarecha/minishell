@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:17:36 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/10 03:16:47 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/10 03:22:56 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,17 +225,17 @@ int	take_command(char *line, int *i, t_cmd *act)
 	act->name = get_word(line, i);
 	while (whitespace(line[*i]))
 		*i = *i + 1;
-	act->argv = malloc(sizeof(char *) * calcul_arg(line, *i) + 2);
-	act->argv[0] = act->name;
+	act->args = malloc(sizeof(char *) * calcul_arg(line, *i) + 2);
+	act->args[0] = act->name;
 	arg++;
 	while (!is_pipe(line[*i]) && !is_redirect(line[*i]) && line[*i])
 	{
-		act->argv[arg] = get_word(line, i);
+		act->args[arg] = get_word(line, i);
 		arg++;
 		while (whitespace(line[*i]))
 			*i = *i + 1;
 	}
-	act->argv[arg] = NULL;
+	act->args[arg] = NULL;
 	if (is_redirect(line[*i]))
 			get_redirect(line, i, act);
 	while (whitespace(line[*i]))
@@ -250,7 +250,7 @@ void	init_command(t_cmd *cmd, char **env)
 	cmd->next = NULL;
 	cmd->prev = NULL;
 	cmd->name = NULL;
-	cmd->argv = NULL;
+	cmd->args = NULL;
 	cmd->pipe = 3;
 	cmd->i_red = NULL;
 	cmd->o_red = NULL;
@@ -296,10 +296,10 @@ void	show_tokens(t_cmd *tokens)
 		ft_putstr("name: ");
 		ft_putstr(tokens->name);
 		ft_putstr("\n");
-		while (tokens->argv[i] != NULL)
+		while (tokens->args[i] != NULL)
 		{
 			ft_putstr("argv: ");
-			ft_putstr(tokens->argv[i]);
+			ft_putstr(tokens->args[i]);
 			ft_putstr("\n");
 			i++;
 		}
