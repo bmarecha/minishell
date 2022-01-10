@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:53:56 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/08 02:48:14 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/10 03:15:48 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_cmd
 	char			*name;
 	char			**argv;
 	int				pipe;
+	char			**env;
 
 	t_redir			*i_red;
 	t_redir			*o_red;

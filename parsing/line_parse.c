@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:17:36 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/09 21:45:00 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/10 03:16:47 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ t_redir	*create_redirect(char *line, int *i, int type)
 	if (type == 1 || type == 4)
 		*i = *i + 1;
 	if (type == 2 || type == 3)
-		*i = *i + 2;
+		*i = *i + 1;
 	redir->file = get_word(line, i);
 	redir->type = type;
 	return (redir);
@@ -158,6 +158,24 @@ void	get_redirect(char *line, int *i, t_cmd *act)
 		act->o_red = create_redirect(line, i, 4);
 	else if (redirect == 4)
 		act->o_red = create_redirect(line, i, 3);
+	while (whitespace(line[*i]))
+		*i = *i + 1;
+	if (is_redirect(line[*i]))
+	{
+		if (act->i_red)
+		{
+			free(act->i_red->file);
+			free(act->i_red);
+			act->i_red = NULL;
+		}
+		if (act->o_red)
+		{
+			free(act->o_red->file);
+			free(act->o_red);
+			act->o_red = NULL;
+		}
+		get_redirect(line, i, act);
+	}
 }
 
 int	calcul_arg(char *line, int i)
@@ -194,6 +212,8 @@ int	calcul_arg(char *line, int i)
 		}
 		i++;
 	}
+	if (in_word == 1)
+		arg++;
 	return (arg);
 }
 
@@ -205,7 +225,9 @@ int	take_command(char *line, int *i, t_cmd *act)
 	act->name = get_word(line, i);
 	while (whitespace(line[*i]))
 		*i = *i + 1;
-	act->argv = malloc(sizeof(char*) * calcul_arg(line, *i));
+	act->argv = malloc(sizeof(char *) * calcul_arg(line, *i) + 2);
+	act->argv[0] = act->name;
+	arg++;
 	while (!is_pipe(line[*i]) && !is_redirect(line[*i]) && line[*i])
 	{
 		act->argv[arg] = get_word(line, i);
@@ -213,6 +235,7 @@ int	take_command(char *line, int *i, t_cmd *act)
 		while (whitespace(line[*i]))
 			*i = *i + 1;
 	}
+	act->argv[arg] = NULL;
 	if (is_redirect(line[*i]))
 			get_redirect(line, i, act);
 	while (whitespace(line[*i]))
@@ -222,7 +245,7 @@ int	take_command(char *line, int *i, t_cmd *act)
 	return (1);
 }
 
-void	init_command(t_cmd *cmd)
+void	init_command(t_cmd *cmd, char **env)
 {
 	cmd->next = NULL;
 	cmd->prev = NULL;
@@ -231,9 +254,10 @@ void	init_command(t_cmd *cmd)
 	cmd->pipe = 3;
 	cmd->i_red = NULL;
 	cmd->o_red = NULL;
+	cmd->env = env;
 }
 
-t_cmd	*get_line(char *line)
+t_cmd	*get_line(char *line, char **env)
 {
 	t_cmd	*act;
 	t_cmd	*new;
@@ -243,7 +267,7 @@ t_cmd	*get_line(char *line)
 	i = 0;
 	act = malloc(sizeof(t_cmd));
 	tokens = act;
-	init_command(act);
+	init_command(act, env);
 	while (line[i])
 	{
 		while (whitespace(line[i]))
@@ -252,7 +276,7 @@ t_cmd	*get_line(char *line)
 		if (line[i])
 		{
 			new = malloc(sizeof(t_cmd));
-			init_command(new);
+			init_command(new, env);
 			new->prev = act;
 			act->next = new;
 			act = new;
@@ -261,57 +285,63 @@ t_cmd	*get_line(char *line)
 	return (tokens);
 }
 
-int	read_line(void)
+void	show_tokens(t_cmd *tokens)
+{
+	int		i;
+
+	i = 0;
+	while (tokens != NULL)
+	{
+		ft_putstr("___________________\n");
+		ft_putstr("name: ");
+		ft_putstr(tokens->name);
+		ft_putstr("\n");
+		while (tokens->argv[i] != NULL)
+		{
+			ft_putstr("argv: ");
+			ft_putstr(tokens->argv[i]);
+			ft_putstr("\n");
+			i++;
+		}
+		ft_putstr("pipe: ");
+		ft_putchar(tokens->pipe + 48);
+		ft_putstr("\n");
+		if (tokens->i_red)
+		{
+			ft_putstr("file: ");
+			ft_putstr(tokens->i_red->file);
+			ft_putstr("\n");
+			ft_putstr("type: ");
+			ft_putchar(tokens->i_red->type + 48);
+			ft_putstr("\n");
+		}
+		if (tokens->o_red)
+		{
+			ft_putstr("file: ");
+			ft_putstr(tokens->o_red->file);
+			ft_putstr("\n");
+			ft_putstr("type: ");
+			ft_putchar(tokens->o_red->type + 48);
+			ft_putstr("\n");
+		}
+		ft_putstr("___________________\n");
+		i = 0;
+		tokens = tokens->next;
+	}
+}
+
+int	read_line(char **env)
 {
 	char *line;
 	t_cmd *tokens;
-	int		i;
 
 	line = NULL;
 	tokens = NULL;
-	i = 0;
 	ft_putstr("prompt: ");
 	while (get_next_line(0, &line) > 0)
 	{
-		tokens = get_line(line);
-		while (tokens != NULL)
-		{
-			ft_putstr("___________________\n");
-			ft_putstr("name: ");
-			ft_putstr(tokens->name);
-			ft_putstr("\n");
-			while (tokens->argv[i] != NULL)
-			{
-				ft_putstr("argv: ");
-				ft_putstr(tokens->argv[i]);
-				ft_putstr("\n");
-				i++;
-			}
-			ft_putstr("pipe: ");
-			ft_putchar(tokens->pipe + 48);
-			ft_putstr("\n");
-			if (tokens->i_red)
-			{
-				ft_putstr("file: ");
-				ft_putstr(tokens->i_red->file);
-				ft_putstr("\n");
-				ft_putstr("type: ");
-				ft_putchar(tokens->i_red->type + 48);
-				ft_putstr("\n");
-			}
-			if (tokens->o_red)
-			{
-				ft_putstr("file: ");
-				ft_putstr(tokens->o_red->file);
-				ft_putstr("\n");
-				ft_putstr("type: ");
-				ft_putchar(tokens->o_red->type + 48);
-				ft_putstr("\n");
-			}
-			ft_putstr("___________________\n");
-			i = 0;
-			tokens = tokens->next;
-		}
+		tokens = get_line(line, env);
+		show_tokens(tokens);
 		ft_putstr("prompt: ");
 		free(line);
 	}
@@ -319,8 +349,10 @@ int	read_line(void)
 	return (0);
 }
 
-int	main()
+int	main(int ac, char **av, char **env)
 {
-	read_line();
+	(void)ac;
+	(void)av;
+	read_line(env);
 	return (0);
 }
