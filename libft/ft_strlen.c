@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.h                                          :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bmarecha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/06 17:53:56 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/11 17:01:29 by bmarecha         ###   ########.fr       */
+/*   Created: 2019/11/06 18:13:56 by bmarecha          #+#    #+#             */
+/*   Updated: 2019/11/11 15:42:55 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef PARSING_H
-# define PARSING_H
+#include <stdlib.h>
 
-#include <signal.h>
-#include "../minishell.h"
+size_t	ft_strlen(const char *s)
+{
+	unsigned long	i;
 
-int		get_next_line(int fd, char **line);
-char	*ft_substr(char *s, int start, int len);
-
-#endif
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}

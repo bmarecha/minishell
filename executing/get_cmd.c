@@ -1,3 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_cmd.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/11 16:42:41 by bmarecha          #+#    #+#             */
+/*   Updated: 2022/01/11 17:30:02 by bmarecha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "executing.h"
+
 static char	*find_path(char *cmd, char **paths)
 {
 	int		i;
@@ -25,9 +39,8 @@ static char	*find_path(char *cmd, char **paths)
 	return (NULL);
 }
 
-static char	*get_real_cmd(t_cmd *cmd)
+char	*get_real_cmd(t_cmd *cmd)
 {
-	char	**split;
 	char	**paths;
 	char	*path;
 
@@ -36,7 +49,6 @@ static char	*get_real_cmd(t_cmd *cmd)
 		write(2, "Command name missing.\n", 18);
 		return (NULL);
 	}
-	cmd->args = split;
 	if (!access(cmd->name, R_OK))
 		return (cmd->name);
 	path = getenv("PATH");

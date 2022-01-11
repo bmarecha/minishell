@@ -1,22 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.h                                          :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bmarecha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/06 17:53:56 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/11 17:01:29 by bmarecha         ###   ########.fr       */
+/*   Created: 2019/11/22 15:45:25 by bmarecha          #+#    #+#             */
+/*   Updated: 2019/11/23 13:49:03 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef PARSING_H
-# define PARSING_H
+#include "libft.h"
 
-#include <signal.h>
-#include "../minishell.h"
+int	ft_lstsize(t_list *lst)
+{
+	t_list	*p;
+	int		i;
 
-int		get_next_line(int fd, char **line);
-char	*ft_substr(char *s, int start, int len);
-
-#endif
+	p = lst;
+	if (p == NULL)
+		return (0);
+	i = 1;
+	while (p->next != 0)
+	{
+		p = p->next;
+		i++;
+	}
+	return (i);
+}

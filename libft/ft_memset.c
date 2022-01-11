@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.h                                          :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bmarecha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/06 17:53:56 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/11 17:01:29 by bmarecha         ###   ########.fr       */
+/*   Created: 2019/11/12 10:41:05 by bmarecha          #+#    #+#             */
+/*   Updated: 2019/11/23 14:13:53 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef PARSING_H
-# define PARSING_H
+#include "libft.h"
 
-#include <signal.h>
-#include "../minishell.h"
+void	*ft_memset(void *b, int c, size_t len)
+{
+	unsigned char	v;
+	unsigned char	*p;
 
-int		get_next_line(int fd, char **line);
-char	*ft_substr(char *s, int start, int len);
-
-#endif
+	p = b;
+	v = c;
+	while (len--)
+		p[len] = v;
+	return (b);
+}

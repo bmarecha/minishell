@@ -1,22 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.h                                          :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bmarecha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/06 17:53:56 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/11 17:01:29 by bmarecha         ###   ########.fr       */
+/*   Created: 2019/11/23 14:18:47 by bmarecha          #+#    #+#             */
+/*   Updated: 2019/11/23 14:32:23 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef PARSING_H
-# define PARSING_H
+#include "libft.h"
 
-#include <signal.h>
-#include "../minishell.h"
+void	ft_putstr_fd(char *s, int fd)
+{
+	int	i;
 
-int		get_next_line(int fd, char **line);
-char	*ft_substr(char *s, int start, int len);
-
-#endif
+	if (s == 0)
+		return ;
+	i = 0;
+	while (s[i])
+	{
+		write(fd, s + i, 1);
+		i++;
+	}
+}

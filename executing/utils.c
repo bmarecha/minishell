@@ -6,11 +6,11 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 15:08:40 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/09 21:58:15 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/11 16:49:26 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "executing.h"
 
 void	free_split(char ***split)
 {

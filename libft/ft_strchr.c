@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.h                                          :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bmarecha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/06 17:53:56 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/11 17:01:29 by bmarecha         ###   ########.fr       */
+/*   Created: 2019/11/06 17:12:59 by bmarecha          #+#    #+#             */
+/*   Updated: 2019/11/11 15:38:35 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef PARSING_H
-# define PARSING_H
+char	*ft_strchr(const char *s, int c)
+{
+	int	i;
 
-#include <signal.h>
-#include "../minishell.h"
-
-int		get_next_line(int fd, char **line);
-char	*ft_substr(char *s, int start, int len);
-
-#endif
+	i = -1;
+	while (s[++i])
+		if (s[i] == c)
+			return ((char *)s + i);
+	if (s[i] == c)
+		return ((char *)s + i);
+	return (0);
+}

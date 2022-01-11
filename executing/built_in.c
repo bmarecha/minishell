@@ -6,17 +6,17 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 12:56:32 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/10 00:53:57 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/11 17:29:17 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "executing.h"
 
 int	ft_cd(t_cmd *cmd)
 {
 	if (!cmd->args || !cmd->args[0] || !cmd->args[1])
 	{
-		write(STDERR_FILENO, "Missing an argument.", );
+		write(STDERR_FILENO, "Missing an argument.\n", 21);
 		return (-1);
 	}
 	if (!chdir(cmd->args[1]))
@@ -33,7 +33,7 @@ int	ft_cd(t_cmd *cmd)
 	return (-1);
 }
 
-int	ft_pwd(t_cmd *cmd)
+int	ft_pwd()
 {
 	char	*res;
 
@@ -59,9 +59,9 @@ int	ft_pwd(t_cmd *cmd)
 int	built_in_exe(t_cmd *cmd)
 {
 	if (!ft_strcmp(cmd->name, "pwd"))
-		return (ft_pwd(cmd));
+		return (ft_pwd());
 	if (!ft_strcmp(cmd->name, "cd"))
-		return (0);
+		return (ft_cd(cmd));
 	if (!ft_strcmp(cmd->name, "echo"))
 		return (0);
 	if (!ft_strcmp(cmd->name, "unset"))

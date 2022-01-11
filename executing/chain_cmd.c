@@ -6,9 +6,11 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 19:48:16 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/09 23:04:16 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/11 16:49:07 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "executing.h"
 
 int	dupin(int i_fd, t_cmd *cmd)
 {
@@ -32,6 +34,7 @@ int	dupin(int i_fd, t_cmd *cmd)
 	}
 	else
 		dup2(i_fd, STDIN_FILENO);
+	return (0);
 }
 
 int	dupout(int o_fd, t_cmd *cmd)
@@ -59,7 +62,8 @@ int	dupout(int o_fd, t_cmd *cmd)
 		close(fd);
 	}
 	else
-		dup2(i_fd, STDOUT_FILENO);
+		dup2(o_fd, STDOUT_FILENO);
+	return (0);
 }
 
 int	execute_cmd(int i_fd, t_cmd *cmd, int o_fd)
@@ -90,12 +94,12 @@ int	forking_cmd(int i_fd, t_cmd *cmd, int o_fd)
 	else if (pid == 0)
 	{
 		execute_cmd(i_fd, cmd, o_fd);
-		if (infd != -1)
-			close(infd);
+		if (i_fd != -1)
+			close(i_fd);
 		return (0);
 	}
-	if (infd != -1)
-		close(infd);
+	if (i_fd != -1)
+		close(i_fd);
 	return (1);
 }
 
@@ -115,8 +119,6 @@ int	start_chain(t_cmd *cmd)
 		if (!forking_cmd(infd, cmd, pipefd[0]))
 			break ;
 		close(pipefd[0]);
-		if (infd != -1)
-			close(infd);
 		infd = pipefd[1];
 		cmd = cmd->next;
 	}

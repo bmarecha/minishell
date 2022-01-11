@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:17:36 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/10 03:22:56 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/11 17:31:23 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,7 +245,7 @@ int	take_command(char *line, int *i, t_cmd *act)
 	return (1);
 }
 
-void	init_command(t_cmd *cmd, char **env)
+void	init_command(t_cmd *cmd, char ***env)
 {
 	cmd->next = NULL;
 	cmd->prev = NULL;
@@ -257,7 +257,7 @@ void	init_command(t_cmd *cmd, char **env)
 	cmd->env = env;
 }
 
-t_cmd	*get_line(char *line, char **env)
+t_cmd	*get_line(char *line, char ***env)
 {
 	t_cmd	*act;
 	t_cmd	*new;
@@ -330,7 +330,7 @@ void	show_tokens(t_cmd *tokens)
 	}
 }
 
-int	read_line(char **env)
+int	read_line(char ***env)
 {
 	char *line;
 	t_cmd *tokens;
@@ -342,6 +342,7 @@ int	read_line(char **env)
 	{
 		tokens = get_line(line, env);
 		show_tokens(tokens);
+		start_chain(tokens);
 		ft_putstr("prompt: ");
 		free(line);
 	}
@@ -353,6 +354,6 @@ int	main(int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
-	read_line(env);
+	read_line(&env);
 	return (0);
 }
