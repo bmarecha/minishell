@@ -6,7 +6,7 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 16:42:41 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/11 17:30:02 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/11 18:21:12 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,17 @@ static char	*find_path(char *cmd, char **paths)
 	char	*cmd2;
 
 	i = -1;
+	printf("Searching cmd path\n");
 	cmd2 = ft_strjoin("/", cmd);
+	printf("Cnf\n");
 	free(cmd);
 	while (paths[++i])
 	{
 		path = ft_strjoin(paths[i], cmd2);
 		if (!access(path, R_OK))
 		{
+			printf("Command found\n");
+			write(1, "Cf\n", 3);
 			free_split(&paths);
 			free(cmd2);
 			return (path);
@@ -33,7 +37,9 @@ static char	*find_path(char *cmd, char **paths)
 		if (path)
 			free(path);
 	}
+	printf("Command not found\n");
 	join_write(2, "Command Not found : ", cmd2 + 1);
+	write(1, "Cnf\n", 4);
 	free_split(&paths);
 	free(cmd2);
 	return (NULL);
@@ -52,7 +58,6 @@ char	*get_real_cmd(t_cmd *cmd)
 	if (!access(cmd->name, R_OK))
 		return (cmd->name);
 	path = getenv("PATH");
-	printf("PATH value : %s\n", path);
 	paths = ft_split(path, ":");
 	if (!paths)
 		return (NULL);

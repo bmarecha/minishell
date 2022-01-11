@@ -6,7 +6,7 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 19:48:16 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/11 16:49:07 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/11 18:04:25 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ int	dupin(int i_fd, t_cmd *cmd)
 		dup2(fd, STDIN_FILENO);
 		close(fd);
 	}
-	else
+	else if (cmd->pipe == 2 || cmd->pipe == 0)
 		dup2(i_fd, STDIN_FILENO);
-	return (0);
+	return (1);
 }
 
 int	dupout(int o_fd, t_cmd *cmd)
@@ -61,25 +61,31 @@ int	dupout(int o_fd, t_cmd *cmd)
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}
-	else
+	else if (cmd->pipe == 2 || cmd->pipe == 1)
 		dup2(o_fd, STDOUT_FILENO);
-	return (0);
+	return (1);
 }
 
 int	execute_cmd(int i_fd, t_cmd *cmd, int o_fd)
 {
+	printf("Connecting in and out fd of command\n");
 	if (!dupin(i_fd, cmd))
-		return (-1); //Free close and exit if possible
-	close(i_fd);
+		exit(-1); //Free close and exit if possible
+//	close(i_fd);
 	if (!dupout(o_fd, cmd))
-		return (-1); //Free close and exit if possible
-	close(o_fd);
+		exit(-1); //Free close and exit if possible
+//	if (close(o_fd))
+//		exit(-1);
+	printf("Executing command\n");
 	if (!ft_strcmp(cmd->name, "pwd") || !ft_strcmp(cmd->name, "cd")
 		|| !ft_strcmp(cmd->name, "echo") || !ft_strcmp(cmd->name, "export")
 		|| !ft_strcmp(cmd->name, "env") || !ft_strcmp(cmd->name, "unset")
 		|| !ft_strcmp(cmd->name, "exit"))
-		built_in_exe(cmd);
+		return (built_in_exe(cmd));
+	printf("Function is not built_in.\n");
 	cmd->name = get_real_cmd(cmd);
+	if (cmd->name == NULL)
+		exit(-1);
 	execve(cmd->name, cmd->args, *(cmd->env));
 	return (1);
 }
