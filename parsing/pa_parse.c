@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:17:36 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/12 02:41:16 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/12 13:17:11 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	take_command(char *line, int *i, t_cmd *act)
 	return (1);
 }
 
-t_cmd	*get_line(char *line, char **env)
+t_cmd	*get_line(char *line, char ***env)
 {
 	t_cmd	*act;
 	t_cmd	*new;
@@ -115,20 +115,17 @@ int	read_line(char ***env)
 {
 	char	*line;
 	t_cmd	*tokens;
-	char	*line;
 
 	line = NULL;
 	tokens = NULL;
 	ft_putstr("prompt: ");
-	line = get_next_line(0);
-	while (line > 0)
+	while (get_next_line(0, &line) > 0)
 	{
 		tokens = get_line(line, env);
 		show_tokens(tokens);
 		start_chain(tokens);
 		ft_putstr("prompt: ");
 		free(line);
-		line = get_next_line(0);
 	}
 	ft_putstr("exit");
 	return (0);

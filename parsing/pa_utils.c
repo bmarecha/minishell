@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   p_utils.c                                          :+:      :+:    :+:   */
+/*   pa_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 02:04:28 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/12 02:06:07 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/12 12:55:11 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,28 @@ void	ft_putstr(char *str)
 		ft_putchar(str[i]);
 		i++;
 	}
+}
+
+char	*ft_substr(char *s, int start, int len)
+{
+	int				i;
+	unsigned int	n;
+	char			*str;
+
+	if (!s)
+		return (0);
+	n = (unsigned int)start;
+	i = 0;
+	if (!(str = malloc(sizeof(char) * (len + 1))))
+		return (0);
+	while (i < len && s[i] && n < ft_strlen(s))
+	{
+		str[i] = s[n];
+		n++;
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
 }
 
 int	calcul_arg(char *line, int i)

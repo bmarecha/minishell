@@ -1,6 +1,12 @@
-SRCS	=	parsing/line_parse.c \
-			parsing/get_next_line.c \
-			parsing/get_next_line_utils.c \
+SRCS	=	parsing/pa_init.c \
+			parsing/pa_check.c \
+			parsing/pa_parse.c \
+			parsing/pa_signals.c \
+			parsing/pa_test.c \
+			parsing/pa_utils.c \
+			parsing/pa_redirections.c \
+			parsing/gnl/get_next_line.c \
+			parsing/gnl/get_next_line_utils.c \
 			executing/chain_cmd.c \
 			executing/built_in.c \
 			executing/get_cmd.c \
@@ -14,6 +20,7 @@ LIBFT = libft/libft.a
 
 INCLUDES = -Ilibft/ \
 		-Iparsing/ \
+		-Iparsing/get_next_line \
 		-Iexecuting/
 
 LIBS = -lft -Llibft/
