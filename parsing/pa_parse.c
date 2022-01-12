@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:17:36 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/12 13:17:11 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/12 13:42:53 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,6 @@ int	read_line(char ***env)
 		ft_putstr("prompt: ");
 		free(line);
 	}
-	ft_putstr("exit");
 	return (0);
 }
 

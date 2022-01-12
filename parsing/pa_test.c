@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 01:41:49 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/12 02:08:22 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/12 13:41:41 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	show_tokens(t_cmd *tokens)
 		ft_putstr("pipe: ");
 		ft_putchar(tokens->pipe + 48);
 		ft_putstr("\n");
-		show_tokens(tokens);
+		show_red(tokens);
 		ft_putstr("___________________\n");
 		i = 0;
 		tokens = tokens->next;
