@@ -6,7 +6,7 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 16:43:45 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/11 17:32:34 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/12 15:08:13 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,11 @@ typedef struct s_redir
 ** next et/ou prev sont mis a NULL dans les cas correspondants
 */
 
-
 typedef struct s_cmd
 {
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
-	
+
 	char			*name;
 	char			**args;
 	int				pipe;

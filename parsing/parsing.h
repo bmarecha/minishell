@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:53:56 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/12 13:17:55 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/12 15:08:42 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <sys/types.h>
 # include "../minishell.h"
 
-int	get_next_line(int fd, char **line);
+int		get_next_line(int fd, char **line);
 // CHECK
 int		whitespace(char c);
 int		is_pipe(char c);

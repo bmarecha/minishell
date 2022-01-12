@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 02:04:28 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/12 12:55:11 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/12 15:07:15 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ char	*ft_substr(char *s, int start, int len)
 		return (0);
 	n = (unsigned int)start;
 	i = 0;
-	if (!(str = malloc(sizeof(char) * (len + 1))))
+	str = malloc(sizeof(char) * (len + 1));
+	if (!str)
 		return (0);
 	while (i < len && s[i] && n < ft_strlen(s))
 	{

@@ -6,7 +6,7 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 12:56:32 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/11 17:29:17 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/12 15:09:20 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_cd(t_cmd *cmd)
 	return (-1);
 }
 
-int	ft_pwd()
+int	ft_pwd(void)
 {
 	char	*res;
 
