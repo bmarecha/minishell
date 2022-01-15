@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:17:36 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/12 13:42:53 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/15 18:15:12 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	take_command(char *line, int *i, t_cmd *act)
 	return (1);
 }
 
-t_cmd	*get_line(char *line, char ***env)
+t_cmd	*get_line(char *line)
 {
 	t_cmd	*act;
 	t_cmd	*new;
@@ -93,7 +93,7 @@ t_cmd	*get_line(char *line, char ***env)
 	i = 0;
 	act = malloc(sizeof(t_cmd));
 	tokens = act;
-	init_command(act, env);
+	init_command(act);
 	while (line[i])
 	{
 		while (whitespace(line[i]))
@@ -102,7 +102,7 @@ t_cmd	*get_line(char *line, char ***env)
 		if (line[i])
 		{
 			new = malloc(sizeof(t_cmd));
-			init_command(new, env);
+			init_command(new);
 			new->prev = act;
 			act->next = new;
 			act = new;
@@ -111,7 +111,7 @@ t_cmd	*get_line(char *line, char ***env)
 	return (tokens);
 }
 
-int	read_line(char ***env)
+int	read_line()
 {
 	char	*line;
 	t_cmd	*tokens;
@@ -121,7 +121,7 @@ int	read_line(char ***env)
 	ft_putstr("prompt: ");
 	while (get_next_line(0, &line) > 0)
 	{
-		tokens = get_line(line, env);
+		tokens = get_line(line);
 		show_tokens(tokens);
 		start_chain(tokens);
 		ft_putstr("prompt: ");
@@ -134,6 +134,7 @@ int	main(int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
-	read_line(&env);
+	g_msh_env = copy_env(env);
+	read_line();
 	return (0);
 }

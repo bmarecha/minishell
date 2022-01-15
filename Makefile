@@ -9,6 +9,7 @@ SRCS	=	parsing/pa_init.c \
 			parsing/gnl/get_next_line_utils.c \
 			executing/chain_cmd.c \
 			executing/built_in.c \
+			executing/vne_built_in.c \
 			executing/get_cmd.c \
 			executing/utils.c
 
