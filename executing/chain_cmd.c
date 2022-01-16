@@ -6,7 +6,7 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 19:48:16 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/15 18:09:02 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/16 19:22:49 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	execute_cmd(int i_fd, t_cmd *cmd, int o_fd)
 		|| !ft_strcmp(cmd->name, "echo") || !ft_strcmp(cmd->name, "export")
 		|| !ft_strcmp(cmd->name, "env") || !ft_strcmp(cmd->name, "unset")
 		|| !ft_strcmp(cmd->name, "exit"))
-		return (built_in_exe(cmd));
+		exit(built_in_exe(cmd));
 	printf("Command is not built_in.\n__\n");
 	cmd->name = get_real_cmd(cmd);
 	if (cmd->name == NULL)
@@ -101,8 +101,6 @@ int	forking_cmd(int i_fd, t_cmd *cmd, int o_fd)
 	else if (pid == 0)
 	{
 		execute_cmd(i_fd, cmd, o_fd);
-		if (i_fd != -1)
-			close(i_fd);
 		return (0);
 	}
 	if (i_fd != -1)
