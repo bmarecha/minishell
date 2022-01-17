@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:17:36 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/17 14:54:04 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/17 15:06:36 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,19 +111,19 @@ t_cmd	*get_line(char *line)
 	return (tokens);
 }
 
-char	*find_env(char *nail)
+char	*find_env(char *nail, char **env)
 {
 	int		i;
 	int		j;
 
 	i = 0;
 	j = 0;
-	while (g_glob.env[i])
+	while (env[i])
 	{
-		while (g_glob.env[i][j] == nail[j])
+		while (env[i][j] == nail[j])
 			j++;
-		if (g_glob.env[i][j] == '=')
-			return (ft_substr(g_glob.env[i], j + 1, ft_strlen(g_glob.env[i]) - j));
+		if (env[i][j] == '=')
+			return (ft_substr(env[i], j + 1, ft_strlen(env[i]) - j));
 		i++;
 		j = 0;
 	}
