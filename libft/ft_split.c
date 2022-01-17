@@ -6,13 +6,13 @@
 /*   By: bmarecha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/19 10:30:26 by bmarecha          #+#    #+#             */
-/*   Updated: 2021/11/26 16:29:41 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/15 19:43:14 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-int	is_in(char c, char *str)
+static int	is_in(char c, char *str)
 {
 	int	i;
 

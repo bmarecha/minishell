@@ -6,7 +6,7 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 12:56:32 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/12 15:09:20 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/17 12:28:25 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,34 @@ int	ft_pwd(void)
 	return (0);
 }
 
+int	ft_echo(t_cmd *cmd)
+{
+	int	i;
+	int	j;
+	int	optn;
+
+	i = -1;
+	optn = 0;
+	while (cmd->args[++i])
+	{
+		j = -1;
+		while (cmd->args[i][++j])
+		{
+			if (cmd->args[i][j] != '$')
+				write(STDOUT_FILENO, cmd->args[i] + j, 1);
+		}
+	}
+	if (!optn)
+		write(STDOUT_FILENO, "\n", 1);
+	return (0);
+}
+
+int	ft_exit(t_cmd *cmd)
+{
+	free_all_cmd(cmd);
+	return (0);
+}
+
 int	built_in_exe(t_cmd *cmd)
 {
 	if (!ft_strcmp(cmd->name, "pwd"))
@@ -63,14 +91,14 @@ int	built_in_exe(t_cmd *cmd)
 	if (!ft_strcmp(cmd->name, "cd"))
 		return (ft_cd(cmd));
 	if (!ft_strcmp(cmd->name, "echo"))
-		return (0);
+		return (ft_echo(cmd));
 	if (!ft_strcmp(cmd->name, "unset"))
-		return (0);//ft_unset(cmd);
+		return (ft_unset(cmd));
 	if (!ft_strcmp(cmd->name, "exit"))
-		return (0);
+		return (ft_exit(cmd));
 	if (!ft_strcmp(cmd->name, "env"))
-		return (0);
+		return (ft_env());
 	if (!ft_strcmp(cmd->name, "export"))
-		return (0);
+		return (ft_export(cmd));
 	return (-1);
 }

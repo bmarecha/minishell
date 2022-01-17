@@ -6,7 +6,7 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 19:48:16 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/11 18:04:25 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/17 14:33:30 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,25 +68,26 @@ int	dupout(int o_fd, t_cmd *cmd)
 
 int	execute_cmd(int i_fd, t_cmd *cmd, int o_fd)
 {
-	printf("Connecting in and out fd of command\n");
 	if (!dupin(i_fd, cmd))
 		exit(-1); //Free close and exit if possible
-//	close(i_fd);
+	if (cmd->pipe == 2 || cmd->pipe == 0)
+		close(i_fd);
 	if (!dupout(o_fd, cmd))
 		exit(-1); //Free close and exit if possible
-//	if (close(o_fd))
-//		exit(-1);
-	printf("Executing command\n");
+	if (cmd->pipe == 2 || cmd->pipe == 1)
+		if (close(o_fd))
+			exit(-1);
+	printf("Executing command :\n__\n");
 	if (!ft_strcmp(cmd->name, "pwd") || !ft_strcmp(cmd->name, "cd")
 		|| !ft_strcmp(cmd->name, "echo") || !ft_strcmp(cmd->name, "export")
 		|| !ft_strcmp(cmd->name, "env") || !ft_strcmp(cmd->name, "unset")
 		|| !ft_strcmp(cmd->name, "exit"))
-		return (built_in_exe(cmd));
-	printf("Function is not built_in.\n");
+		exit(built_in_exe(cmd));
+	printf("Command is not built_in.\n__\n");
 	cmd->name = get_real_cmd(cmd);
 	if (cmd->name == NULL)
 		exit(-1);
-	execve(cmd->name, cmd->args, *(cmd->env));
+	execve(cmd->name, cmd->args, g_glob.env);
 	return (1);
 }
 
@@ -100,8 +101,6 @@ int	forking_cmd(int i_fd, t_cmd *cmd, int o_fd)
 	else if (pid == 0)
 	{
 		execute_cmd(i_fd, cmd, o_fd);
-		if (i_fd != -1)
-			close(i_fd);
 		return (0);
 	}
 	if (i_fd != -1)
@@ -122,13 +121,14 @@ int	start_chain(t_cmd *cmd)
 	{
 		if (pipe(pipefd) == -1)
 			perror("Can't create pipe");
-		if (!forking_cmd(infd, cmd, pipefd[0]))
+		if (!forking_cmd(infd, cmd, pipefd[1]))
 			break ;
-		close(pipefd[0]);
-		infd = pipefd[1];
+		close(pipefd[1]);
+		infd = pipefd[0];
 		cmd = cmd->next;
 	}
-	forking_cmd(infd, cmd, STDOUT_FILENO);
+	if (!cmd->next)
+		forking_cmd(infd, cmd, -1);
 	while (waitpid(-1, &status, WUNTRACED) > 0)
 		if (WEXITSTATUS(status))
 			write(2, "Error on a child process.\n", 26);

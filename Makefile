@@ -7,8 +7,10 @@ SRCS	=	parsing/pa_init.c \
 			parsing/pa_redirections.c \
 			executing/chain_cmd.c \
 			executing/built_in.c \
+			executing/vne_built_in.c \
 			executing/get_cmd.c \
-			executing/utils.c
+			executing/utils.c \
+			executing/alpha_print.c
 
 OBJS	=	${SRCS:.c=.o}
 

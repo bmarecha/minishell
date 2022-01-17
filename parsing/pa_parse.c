@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:17:36 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/17 04:04:25 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/17 14:54:04 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	take_command(char *line, int *i, t_cmd *act)
 	return (1);
 }
 
-t_cmd	*get_line(char *line, char ***env)
+t_cmd	*get_line(char *line)
 {
 	t_cmd	*act;
 	t_cmd	*new;
@@ -93,7 +93,7 @@ t_cmd	*get_line(char *line, char ***env)
 	i = 0;
 	act = malloc(sizeof(t_cmd));
 	tokens = act;
-	init_command(act, env);
+	init_command(act);
 	while (line[i])
 	{
 		while (whitespace(line[i]))
@@ -102,7 +102,7 @@ t_cmd	*get_line(char *line, char ***env)
 		if (line[i])
 		{
 			new = malloc(sizeof(t_cmd));
-			init_command(new, env);
+			init_command(new);
 			new->prev = act;
 			act->next = new;
 			act = new;
@@ -111,26 +111,26 @@ t_cmd	*get_line(char *line, char ***env)
 	return (tokens);
 }
 
-char	*find_env(char *nail, char **env)
+char	*find_env(char *nail)
 {
 	int		i;
 	int		j;
 
 	i = 0;
 	j = 0;
-	while (env[i])
+	while (g_glob.env[i])
 	{
-		while (env[i][j] == nail[j])
+		while (g_glob.env[i][j] == nail[j])
 			j++;
-		if (env[i][j] == '=')
-			return (ft_substr(env[i], j + 1, ft_strlen(env[i]) - j));
+		if (g_glob.env[i][j] == '=')
+			return (ft_substr(g_glob.env[i], j + 1, ft_strlen(g_glob.env[i]) - j));
 		i++;
 		j = 0;
 	}
 	return (NULL);
 }
 
-char	*get_prompt(char ***env)
+char	*get_prompt()
 {
 	char	*prompt;
 	char	*temp;
@@ -138,7 +138,7 @@ char	*get_prompt(char ***env)
 
 	prompt = NULL;
 	prompt = ft_strdup("\033[0;32m\033[1m");
-	temp = find_env("USER", *env);
+	temp = find_env("USER", g_glob.env);
 	prompt = ft_strjoin(prompt, temp);
 	prompt = ft_strjoin(prompt, "\033[0m");
 	prompt = ft_strjoin(prompt, ":");
@@ -152,7 +152,7 @@ char	*get_prompt(char ***env)
 	return (prompt);
 }
 
-int	read_line(char ***env)
+int	read_line(void)
 {
 	char	*line;
 	t_cmd	*tokens;
@@ -160,21 +160,23 @@ int	read_line(char ***env)
 
 	line = NULL;
 	tokens = NULL;
-	prompt = get_prompt(env);
+	prompt = get_prompt();
 	line = readline(prompt);
 	while (line != NULL)
 	{
-		tokens = get_line(line, env);
+		tokens = get_line(line);
 		show_tokens(tokens);
 		start_chain(tokens);
 		free(line);
 		free(prompt);
-		prompt = get_prompt(env);
+		prompt = get_prompt();
 		line = readline(prompt);
 	}
 	ft_putstr("exit\n");
 	return (0);
 }
+
+t_glob	g_glob = {.env = NULL, .signal = 0};
 
 int	main(int ac, char **av, char **env)
 {
@@ -185,6 +187,7 @@ int	main(int ac, char **av, char **env)
 	sigaction(SIGINT, &sa1, NULL);
 	(void)ac;
 	(void)av;
-	read_line(&env);
+	g_glob.env = copy_env(env);
+	read_line();
 	return (0);
 }

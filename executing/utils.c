@@ -6,11 +6,22 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 15:08:40 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/11 16:49:26 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/17 14:53:08 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executing.h"
+
+int	is_in(char c, char *charset)
+{
+	int	i;
+
+	i = -1;
+	while (charset[++i])
+		if (charset[i] == c)
+			return (i);
+	return (-1);
+}
 
 void	free_split(char ***split)
 {
@@ -20,6 +31,35 @@ void	free_split(char ***split)
 	while ((*split)[++i])
 		free((*split)[i]);
 	free(*split);
+}
+
+void	free_all_cmd(t_cmd *cmd)
+{
+	while (cmd->next)
+		cmd = cmd->next;
+	if (cmd->name)
+		free(cmd->name);
+	if (cmd->i_red)
+	{
+		free(cmd->i_red->file);
+		free(cmd->i_red);
+	}
+	if (cmd->o_red)
+	{
+		free(cmd->o_red->file);
+		free(cmd->o_red);
+	}
+	if (cmd->args)
+		free_split(&(cmd->args));
+	if (cmd->prev)
+	{
+		cmd = cmd->prev;
+		free(cmd->next);
+		cmd->next = NULL;
+		free_all_cmd(cmd);
+	}
+	else
+		free(cmd);
 }
 
 void	join_write(int fd, char *str1, char *str2)
