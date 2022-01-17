@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:17:36 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/12 13:42:53 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/17 04:04:25 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,27 +111,78 @@ t_cmd	*get_line(char *line, char ***env)
 	return (tokens);
 }
 
+char	*find_env(char *nail, char **env)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	while (env[i])
+	{
+		while (env[i][j] == nail[j])
+			j++;
+		if (env[i][j] == '=')
+			return (ft_substr(env[i], j + 1, ft_strlen(env[i]) - j));
+		i++;
+		j = 0;
+	}
+	return (NULL);
+}
+
+char	*get_prompt(char ***env)
+{
+	char	*prompt;
+	char	*temp;
+	char	*pwd;
+
+	prompt = NULL;
+	prompt = ft_strdup("\033[0;32m\033[1m");
+	temp = find_env("USER", *env);
+	prompt = ft_strjoin(prompt, temp);
+	prompt = ft_strjoin(prompt, "\033[0m");
+	prompt = ft_strjoin(prompt, ":");
+	prompt = ft_strjoin(prompt, "\033[0;34m\033[1m");
+	pwd = getcwd(NULL, 0);
+	prompt = ft_strjoin(prompt, pwd);
+	prompt = ft_strjoin(prompt, "$ ");
+	prompt = ft_strjoin(prompt, "\033[0m");
+	free(temp);
+	free(pwd);
+	return (prompt);
+}
+
 int	read_line(char ***env)
 {
 	char	*line;
 	t_cmd	*tokens;
+	char	*prompt;
 
 	line = NULL;
 	tokens = NULL;
-	ft_putstr("prompt: ");
-	while (get_next_line(0, &line) > 0)
+	prompt = get_prompt(env);
+	line = readline(prompt);
+	while (line != NULL)
 	{
 		tokens = get_line(line, env);
 		show_tokens(tokens);
 		start_chain(tokens);
-		ft_putstr("prompt: ");
 		free(line);
+		free(prompt);
+		prompt = get_prompt(env);
+		line = readline(prompt);
 	}
+	ft_putstr("exit\n");
 	return (0);
 }
 
 int	main(int ac, char **av, char **env)
 {
+	struct sigaction	sa1;
+	sa1.sa_flags = SA_RESTART;
+	sa1.sa_handler = &handle_sig;
+	sigemptyset(&sa1.sa_mask);
+	sigaction(SIGINT, &sa1, NULL);
 	(void)ac;
 	(void)av;
 	read_line(&env);

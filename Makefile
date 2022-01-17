@@ -5,8 +5,6 @@ SRCS	=	parsing/pa_init.c \
 			parsing/pa_test.c \
 			parsing/pa_utils.c \
 			parsing/pa_redirections.c \
-			parsing/gnl/get_next_line.c \
-			parsing/gnl/get_next_line_utils.c \
 			executing/chain_cmd.c \
 			executing/built_in.c \
 			executing/get_cmd.c \
@@ -20,10 +18,9 @@ LIBFT = libft/libft.a
 
 INCLUDES = -Ilibft/ \
 		-Iparsing/ \
-		-Iparsing/get_next_line \
 		-Iexecuting/
 
-LIBS = -lft -Llibft/
+LIBS = -lft -Llibft/ -L/usr/include -lreadline
 
 .c.o	:
 	gcc -Wall -Werror -Wextra -c $< ${INCLUDES} -o ${<:.c=.o}
