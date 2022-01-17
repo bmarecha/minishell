@@ -6,13 +6,13 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 01:44:32 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/12 12:18:31 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/17 02:39:58 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-int	whitespace(char c)
+int	ft_whitespace(char c)
 {
 	if (c == ' ' || c == '	')
 	{
