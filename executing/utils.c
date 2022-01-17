@@ -6,15 +6,15 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 15:08:40 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/15 19:08:16 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/17 14:53:08 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executing.h"
 
-int		is_in(char c, char *charset)
+int	is_in(char c, char *charset)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (charset[++i])

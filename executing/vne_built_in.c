@@ -6,7 +6,7 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 01:25:45 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/15 19:45:05 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/17 14:52:49 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ char	**add_env(char **env, char *var)
 	vne[--n] = var;
 	while (--n >= 0)
 		vne[n] = env[n];
+//	printf("Freeing : %p.\n", env);
 	free(env);
+//	printf("Just added %s to env %p.\n", var, vne);
 	return (vne);
 }
 
@@ -68,10 +70,10 @@ char	**remove_env(char **env, char *var)
 	return (vne);
 }
 
-int		ft_unset(t_cmd *cmd)
+int	ft_unset(t_cmd *cmd)
 {
-	int	n;
-	int	i;
+	int		n;
+	int		i;
 	char	*var;
 
 	n = 0;
@@ -85,15 +87,15 @@ int		ft_unset(t_cmd *cmd)
 		if (var[i])
 			join_write(STDERR_FILENO, "unset: identifiant non valable :", var);
 		else
-			g_msh_env = remove_env(g_msh_env, var);
+			g_glob.env = remove_env(g_glob.env, var);
 	}
 	return (0);
 }
 
-int		ft_export(t_cmd *cmd)
+int	ft_export(t_cmd *cmd)
 {
-	int	n;
-	int	i;
+	int		n;
+	int		i;
 	char	*var;
 
 	n = 0;
@@ -107,17 +109,22 @@ int		ft_export(t_cmd *cmd)
 		if (var[i] != '=')
 			join_write(STDERR_FILENO, "export: identifiant non valable :", var);
 		else if (var[i])
-			g_msh_env = add_env(g_msh_env, var);
+			g_glob.env = add_env(g_glob.env, var);
+//		ft_env();
 	}
+	if (n == 1)
+		ft_alpha_print(g_glob.env);
 	return (0);
 }
 
-int		ft_env()
+int	ft_env(void)
 {
-	int	i;
-	char **vne;
+	int		i;
+	char	**vne;
+
 	i = -1;
-	vne = g_msh_env;
+	vne = g_glob.env;
+//	printf("%p vne, %p g_env.\n", vne, g_glob.env);
 	while (vne[++i])
 	{
 		write(STDOUT_FILENO, vne[i], ft_strlen(vne[i]));

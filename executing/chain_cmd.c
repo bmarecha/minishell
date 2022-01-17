@@ -6,7 +6,7 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 19:48:16 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/16 19:22:49 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/17 14:33:30 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	execute_cmd(int i_fd, t_cmd *cmd, int o_fd)
 	cmd->name = get_real_cmd(cmd);
 	if (cmd->name == NULL)
 		exit(-1);
-	execve(cmd->name, cmd->args, g_msh_env);
+	execve(cmd->name, cmd->args, g_glob.env);
 	return (1);
 }
 

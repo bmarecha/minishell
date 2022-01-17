@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:17:36 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/15 18:15:12 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/17 14:54:04 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ t_cmd	*get_line(char *line)
 	return (tokens);
 }
 
-int	read_line()
+int	read_line(void)
 {
 	char	*line;
 	t_cmd	*tokens;
@@ -130,11 +130,13 @@ int	read_line()
 	return (0);
 }
 
+t_glob	g_glob = {.env = NULL, .signal = 0};
+
 int	main(int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
-	g_msh_env = copy_env(env);
+	g_glob.env = copy_env(env);
 	read_line();
 	return (0);
 }

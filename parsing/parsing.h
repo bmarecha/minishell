@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:53:56 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/15 18:14:52 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/17 14:53:48 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*get_word(char *str, int *len);
 void	get_pipe(char *line, int *i, t_cmd *act);
 int		take_command(char *line, int *i, t_cmd *act);
 t_cmd	*get_line(char *line);
-int		read_line();
+int		read_line(void);
 // REDIRECTIONS
 int		is_redirect(char c);
 void	clean_redir(t_cmd *act);

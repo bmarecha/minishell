@@ -6,7 +6,7 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 16:43:45 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/15 18:11:06 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/17 14:41:04 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,13 @@
 # define MINISHELL_H
 # include "libft/libft.h"
 
-char **g_msh_env;
+typedef struct s_global
+{
+	char	**env;
+	int		signal;
+}				t_glob;
+
+extern t_glob	g_glob;
 
 //type of redir : 1 == '<', 2 == '<<', 3 == '>>', 4 == '>'
 

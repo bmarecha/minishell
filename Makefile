@@ -11,7 +11,8 @@ SRCS	=	parsing/pa_init.c \
 			executing/built_in.c \
 			executing/vne_built_in.c \
 			executing/get_cmd.c \
-			executing/utils.c
+			executing/utils.c \
+			executing/alpha_print.c
 
 OBJS	=	${SRCS:.c=.o}
 
