@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:17:36 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/17 14:54:04 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/18 20:05:28 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,15 +138,14 @@ char	*get_prompt()
 
 	prompt = NULL;
 	prompt = ft_strdup("\033[0;32m\033[1m");
-	temp = find_env("USER", g_glob.env);
+	temp = find_env("USER");
 	prompt = ft_strjoin(prompt, temp);
 	prompt = ft_strjoin(prompt, "\033[0m");
 	prompt = ft_strjoin(prompt, ":");
 	prompt = ft_strjoin(prompt, "\033[0;34m\033[1m");
 	pwd = getcwd(NULL, 0);
 	prompt = ft_strjoin(prompt, pwd);
-	prompt = ft_strjoin(prompt, "$ ");
-	prompt = ft_strjoin(prompt, "\033[0m");
+	prompt = ft_strjoin(prompt, "\033[0m$ ");
 	free(temp);
 	free(pwd);
 	return (prompt);
@@ -162,6 +161,7 @@ int	read_line(void)
 	tokens = NULL;
 	prompt = get_prompt();
 	line = readline(prompt);
+	add_history(line);
 	while (line != NULL)
 	{
 		tokens = get_line(line);
@@ -171,8 +171,10 @@ int	read_line(void)
 		free(prompt);
 		prompt = get_prompt();
 		line = readline(prompt);
+		add_history(line);
 	}
 	ft_putstr("exit\n");
+	rl_clear_history();
 	return (0);
 }
 
@@ -185,6 +187,7 @@ int	main(int ac, char **av, char **env)
 	sa1.sa_handler = &handle_sig;
 	sigemptyset(&sa1.sa_mask);
 	sigaction(SIGINT, &sa1, NULL);
+	sigaction(SIGQUIT, &sa1, NULL);
 	(void)ac;
 	(void)av;
 	g_glob.env = copy_env(env);
