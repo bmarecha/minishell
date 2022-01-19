@@ -6,7 +6,7 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 01:25:45 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/17 14:52:49 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/19 11:30:10 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	ft_unset(t_cmd *cmd)
 		if (var[i])
 			join_write(STDERR_FILENO, "unset: identifiant non valable :", var);
 		else
-			g_glob.env = remove_env(g_glob.env, var);
+			*(cmd->env) = remove_env(*(cmd->env), var);
 	}
 	return (0);
 }
@@ -109,21 +109,21 @@ int	ft_export(t_cmd *cmd)
 		if (var[i] != '=')
 			join_write(STDERR_FILENO, "export: identifiant non valable :", var);
 		else if (var[i])
-			g_glob.env = add_env(g_glob.env, var);
+			*(cmd->env) = add_env(*(cmd->env), var);
 //		ft_env();
 	}
 	if (n == 1)
-		ft_alpha_print(g_glob.env);
+		ft_alpha_print(*(cmd->env));
 	return (0);
 }
 
-int	ft_env(void)
+int	ft_env(t_cmd *cmd)
 {
 	int		i;
 	char	**vne;
 
 	i = -1;
-	vne = g_glob.env;
+	vne = *(cmd->env);
 //	printf("%p vne, %p g_env.\n", vne, g_glob.env);
 	while (vne[++i])
 	{

@@ -6,7 +6,7 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 19:48:16 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/17 14:33:30 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/19 11:25:50 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	execute_cmd(int i_fd, t_cmd *cmd, int o_fd)
 	cmd->name = get_real_cmd(cmd);
 	if (cmd->name == NULL)
 		exit(-1);
-	execve(cmd->name, cmd->args, g_glob.env);
+	execve(cmd->name, cmd->args, *(cmd->env));
 	return (1);
 }
 
@@ -95,6 +95,10 @@ int	forking_cmd(int i_fd, t_cmd *cmd, int o_fd)
 {
 	pid_t	pid;
 
+	if (cmd->pipe == 3 && (!ft_strcmp(cmd->name, "cd") 
+		|| !ft_strcmp(cmd->name, "export") || !ft_strcmp(cmd->name, "unset")))
+		return (built_in_exe(cmd));
+	printf("Forking\n");
 	pid = fork();
 	if (pid == -1) //free and exit but we still don't know how to free
 		return (-1);

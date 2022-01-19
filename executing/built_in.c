@@ -6,7 +6,7 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 12:56:32 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/17 12:28:25 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/19 11:30:21 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	built_in_exe(t_cmd *cmd)
 	if (!ft_strcmp(cmd->name, "exit"))
 		return (ft_exit(cmd));
 	if (!ft_strcmp(cmd->name, "env"))
-		return (ft_env());
+		return (ft_env(cmd));
 	if (!ft_strcmp(cmd->name, "export"))
 		return (ft_export(cmd));
 	return (-1);
