@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:17:36 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/19 11:29:33 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/19 14:37:57 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,22 +157,27 @@ int	read_line(char ***env)
 	char	*line;
 	t_cmd	*tokens;
 	char	*prompt;
+	int		exit;
 
 	line = NULL;
 	tokens = NULL;
 	prompt = get_prompt(*env);
 	line = readline(prompt);
+	exit = 0;
 	while (line != NULL)
 	{
 		tokens = get_line(line, env);
 		show_tokens(tokens);
-		start_chain(tokens);
+		exit = start_chain(tokens);
 		free(line);
 		free(prompt);
+		if (exit)
+			break;
 		prompt = get_prompt(*env);
 		line = readline(prompt);
 	}
-	ft_putstr("exit\n");
+	if (!exit)
+		ft_putstr("exit\n");
 	return (0);
 }
 

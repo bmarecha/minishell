@@ -6,7 +6,7 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 15:08:40 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/17 14:53:08 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/19 14:16:02 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ void	free_all_cmd(t_cmd *cmd)
 {
 	while (cmd->next)
 		cmd = cmd->next;
-	if (cmd->name)
-		free(cmd->name);
 	if (cmd->i_red)
 	{
 		free(cmd->i_red->file);

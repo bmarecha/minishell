@@ -6,7 +6,7 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 01:25:45 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/19 11:30:10 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/19 14:05:14 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,7 @@ char	**add_env(char **env, char *var)
 	vne[--n] = var;
 	while (--n >= 0)
 		vne[n] = env[n];
-//	printf("Freeing : %p.\n", env);
 	free(env);
-//	printf("Just added %s to env %p.\n", var, vne);
 	return (vne);
 }
 
@@ -110,7 +108,6 @@ int	ft_export(t_cmd *cmd)
 			join_write(STDERR_FILENO, "export: identifiant non valable :", var);
 		else if (var[i])
 			*(cmd->env) = add_env(*(cmd->env), var);
-//		ft_env();
 	}
 	if (n == 1)
 		ft_alpha_print(*(cmd->env));
@@ -124,7 +121,6 @@ int	ft_env(t_cmd *cmd)
 
 	i = -1;
 	vne = *(cmd->env);
-//	printf("%p vne, %p g_env.\n", vne, g_glob.env);
 	while (vne[++i])
 	{
 		write(STDOUT_FILENO, vne[i], ft_strlen(vne[i]));
