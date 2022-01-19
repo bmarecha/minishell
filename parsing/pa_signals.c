@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 03:18:22 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/17 03:37:44 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/18 17:05:51 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 
 void	handle_sig(int sig)
 {
-	(void)sig;
-	ft_putstr_fd("ok\n", 0);
+	if (sig == SIGQUIT)
+		return ;
+	ft_putstr_fd("\n", 0);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }

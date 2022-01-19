@@ -145,8 +145,7 @@ char	*get_prompt(char **env)
 	prompt = ft_strjoin(prompt, "\033[0;34m\033[1m");
 	pwd = getcwd(NULL, 0);
 	prompt = ft_strjoin(prompt, pwd);
-	prompt = ft_strjoin(prompt, "$ ");
-	prompt = ft_strjoin(prompt, "\033[0m");
+	prompt = ft_strjoin(prompt, "\033[0m$ ");
 	free(temp);
 	free(pwd);
 	return (prompt);
@@ -163,6 +162,7 @@ int	read_line(char ***env)
 	tokens = NULL;
 	prompt = get_prompt(*env);
 	line = readline(prompt);
+	add_history(line);
 	exit = 0;
 	while (line != NULL)
 	{
@@ -175,7 +175,9 @@ int	read_line(char ***env)
 			break;
 		prompt = get_prompt(*env);
 		line = readline(prompt);
+		add_history(line);
 	}
+	rl_clear_history();
 	if (!exit)
 		ft_putstr("exit\n");
 	return (0);
@@ -190,6 +192,7 @@ int	main(int ac, char **av, char **env)
 	sa1.sa_handler = &handle_sig;
 	sigemptyset(&sa1.sa_mask);
 	sigaction(SIGINT, &sa1, NULL);
+	sigaction(SIGQUIT, &sa1, NULL);
 	(void)ac;
 	(void)av;
 	new_env = copy_env(env);
