@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:53:56 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/17 14:53:48 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/19 11:28:27 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ int		is_pipe(char c);
 int		quote_check(char c, int in_quote);
 // INIT
 char	**copy_env(char **env);
-void	init_command(t_cmd *cmd);
+void	init_command(t_cmd *cmd, char ***env);
 // PARSE
 char	*get_word(char *str, int *len);
 void	get_pipe(char *line, int *i, t_cmd *act);
 int		take_command(char *line, int *i, t_cmd *act);
-t_cmd	*get_line(char *line);
-int		read_line(void);
+t_cmd	*get_line(char *line, char ***env);
+int		read_line(char ***env);
 // REDIRECTIONS
 int		is_redirect(char c);
 void	clean_redir(t_cmd *act);
