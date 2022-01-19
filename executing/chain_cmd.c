@@ -6,7 +6,7 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 19:48:16 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/17 14:33:30 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/19 14:08:01 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	dupout(int o_fd, t_cmd *cmd)
 		if (access(cmd->o_red->file, W_OK) && errno != ENOENT)
 		{
 			perror(cmd->o_red->file);
-			exit(-1); // And free if we can
+			exit(-1);
 		}
 		if (cmd->o_red->type == 3)
 			fd = open(cmd->o_red->file,
@@ -66,35 +66,36 @@ int	dupout(int o_fd, t_cmd *cmd)
 	return (1);
 }
 
-int	execute_cmd(int i_fd, t_cmd *cmd, int o_fd)
+void	execute_cmd(int i_fd, t_cmd *cmd, int o_fd)
 {
 	if (!dupin(i_fd, cmd))
-		exit(-1); //Free close and exit if possible
+		exit(-1);
 	if (cmd->pipe == 2 || cmd->pipe == 0)
 		close(i_fd);
 	if (!dupout(o_fd, cmd))
-		exit(-1); //Free close and exit if possible
+		exit(-1);
 	if (cmd->pipe == 2 || cmd->pipe == 1)
 		if (close(o_fd))
 			exit(-1);
-	printf("Executing command :\n__\n");
 	if (!ft_strcmp(cmd->name, "pwd") || !ft_strcmp(cmd->name, "cd")
 		|| !ft_strcmp(cmd->name, "echo") || !ft_strcmp(cmd->name, "export")
 		|| !ft_strcmp(cmd->name, "env") || !ft_strcmp(cmd->name, "unset")
 		|| !ft_strcmp(cmd->name, "exit"))
 		exit(built_in_exe(cmd));
-	printf("Command is not built_in.\n__\n");
 	cmd->name = get_real_cmd(cmd);
 	if (cmd->name == NULL)
 		exit(-1);
-	execve(cmd->name, cmd->args, g_glob.env);
-	return (1);
+	execve(cmd->name, cmd->args, *(cmd->env));
+	exit(1);
 }
 
 int	forking_cmd(int i_fd, t_cmd *cmd, int o_fd)
 {
 	pid_t	pid;
 
+	if (cmd->pipe == 3 && (!ft_strcmp(cmd->name, "cd") 
+		|| !ft_strcmp(cmd->name, "export") || !ft_strcmp(cmd->name, "unset")))
+		return (built_in_exe(cmd));
 	pid = fork();
 	if (pid == -1) //free and exit but we still don't know how to free
 		return (-1);
@@ -115,8 +116,6 @@ int	start_chain(t_cmd *cmd)
 	int		status;
 
 	infd = -1;
-	if (!cmd->name)
-		return (-1);
 	while (cmd->next)
 	{
 		if (pipe(pipefd) == -1)
@@ -130,7 +129,11 @@ int	start_chain(t_cmd *cmd)
 	if (!cmd->next)
 		forking_cmd(infd, cmd, -1);
 	while (waitpid(-1, &status, WUNTRACED) > 0)
-		if (WEXITSTATUS(status))
+	{
+		if (WEXITSTATUS(status) == 3)
+			return (1);
+		else if (WEXITSTATUS(status))
 			write(2, "Error on a child process.\n", 26);
+	}
 	return (0);
 }
