@@ -6,7 +6,7 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 12:56:32 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/19 14:05:25 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/21 15:04:55 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,18 +59,19 @@ int	ft_pwd(void)
 int	ft_echo(t_cmd *cmd)
 {
 	int	i;
-	int	j;
 	int	optn;
 
-	i = -1;
+	i = 0;
 	optn = 0;
 	while (cmd->args[++i])
 	{
-		j = -1;
-		while (cmd->args[i][++j])
+		if (i == 1 && !ft_strcmp(cmd->args[1], "-n"))
+			optn = 1;
+		else
 		{
-			if (cmd->args[i][j] != '$')
-				write(STDOUT_FILENO, cmd->args[i] + j, 1);
+			if (i > 1 + optn)
+				write(STDOUT_FILENO, " ", 1);
+			write(STDOUT_FILENO, cmd->args[i], ft_strlen(cmd->args[i]));
 		}
 	}
 	if (!optn)
