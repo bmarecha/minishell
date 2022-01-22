@@ -6,28 +6,38 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:17:36 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/19 14:37:57 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/21 06:32:12 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-char	*get_word(char *str, int *len)
+// gérer les quotes, variables env, par exemple cd "par""sing"
+
+char	*get_word(char *str, int *len, int arg, char ***env)
 {
 	int		in_quote;
+	int		quotetype;
 	int		start;
+	char	*word;
 
 	in_quote = 0;
+	quotetype = 0;
 	start = *len;
 	while ((!whitespace(str[*len]) || in_quote != 0) && (!is_pipe(str[*len])
 			|| !is_redirect(str[*len]) || in_quote != 0) && str[*len])
 	{
 		in_quote = quote_check(str[*len], in_quote);
+		if (in_quote != 0 && quotetype == 0)
+			quotetype = in_quote;
 		*len = *len + 1;
 	}
 	if (in_quote != 0)
 		return (NULL);
-	return (ft_substr(str, start, *len - start));
+	word = ft_substr(str, start, *len - start);
+	if (quotetype != 1 && arg == 1)
+		word = get_env_variable(word, env);
+	return (word);
 }
 
 void	get_pipe(char *line, int *i, t_cmd *act)
@@ -55,12 +65,12 @@ void	get_pipe(char *line, int *i, t_cmd *act)
 	}
 }
 
-int	take_command(char *line, int *i, t_cmd *act)
+int	take_command(char *line, int *i, t_cmd *act, char ***env)
 {
 	int		arg;
 
 	arg = 0;
-	act->name = get_word(line, i);
+	act->name = get_word(line, i, 0, env);
 	while (whitespace(line[*i]))
 		*i = *i + 1;
 	act->args = malloc(sizeof(char *) * calcul_arg(line, *i) + 2);
@@ -68,7 +78,7 @@ int	take_command(char *line, int *i, t_cmd *act)
 	arg++;
 	while (!is_pipe(line[*i]) && !is_redirect(line[*i]) && line[*i])
 	{
-		act->args[arg] = get_word(line, i);
+		act->args[arg] = get_word(line, i, 1, env);
 		arg++;
 		while (whitespace(line[*i]))
 			*i = *i + 1;
@@ -98,7 +108,7 @@ t_cmd	*get_line(char *line, char ***env)
 	{
 		while (whitespace(line[i]))
 			i++;
-		take_command(line, &i, act);
+		take_command(line, &i, act, env);
 		if (line[i])
 		{
 			new = malloc(sizeof(t_cmd));
@@ -111,25 +121,6 @@ t_cmd	*get_line(char *line, char ***env)
 	return (tokens);
 }
 
-char	*find_env(char *nail, char **env)
-{
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	while (env[i])
-	{
-		while (env[i][j] == nail[j])
-			j++;
-		if (env[i][j] == '=')
-			return (ft_substr(env[i], j + 1, ft_strlen(env[i]) - j));
-		i++;
-		j = 0;
-	}
-	return (NULL);
-}
-
 char	*get_prompt(char **env)
 {
 	char	*prompt;
@@ -137,15 +128,13 @@ char	*get_prompt(char **env)
 	char	*pwd;
 
 	prompt = NULL;
-	prompt = ft_strdup("\033[0;32m\033[1m");
+	prompt = ft_strdup("");
 	temp = find_env("USER", env);
 	prompt = ft_strjoin(prompt, temp);
-	prompt = ft_strjoin(prompt, "\033[0m");
 	prompt = ft_strjoin(prompt, ":");
-	prompt = ft_strjoin(prompt, "\033[0;34m\033[1m");
 	pwd = getcwd(NULL, 0);
 	prompt = ft_strjoin(prompt, pwd);
-	prompt = ft_strjoin(prompt, "\033[0m$ ");
+	prompt = ft_strjoin(prompt, "$ ");
 	free(temp);
 	free(pwd);
 	return (prompt);
