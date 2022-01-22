@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirections.c                                     :+:      :+:    :+:   */
+/*   pa_redirections.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 00:53:16 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/12 00:54:58 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/21 05:24:21 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_redir	*create_redirect(char *line, int *i, int type)
 		*i = *i + 1;
 	if (type == 2 || type == 3)
 		*i = *i + 1;
-	redir->file = get_word(line, i);
+	redir->file = get_word(line, i, 0, NULL);
 	redir->type = type;
 	return (redir);
 }
