@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:17:36 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/21 06:32:12 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/22 19:41:27 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +182,7 @@ int	read_line(char ***env)
 		exit = start_chain(tokens);
 		free(line);
 		free(prompt);
-		if (exit)
+		if (exit == 3)
 			break;
 		prompt = get_prompt(*env);
 		line = readline(prompt);

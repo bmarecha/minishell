@@ -6,7 +6,7 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 19:48:16 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/19 14:08:01 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/22 19:51:30 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,42 +66,39 @@ int	dupout(int o_fd, t_cmd *cmd)
 	return (1);
 }
 
-void	execute_cmd(int i_fd, t_cmd *cmd, int o_fd)
+int	execute_cmd(int i_fd, t_cmd *cmd, int o_fd)
 {
 	if (!dupin(i_fd, cmd))
-		exit(-1);
+		return (-1);
 	if (cmd->pipe == 2 || cmd->pipe == 0)
 		close(i_fd);
 	if (!dupout(o_fd, cmd))
-		exit(-1);
+		return (-1);
 	if (cmd->pipe == 2 || cmd->pipe == 1)
 		if (close(o_fd))
-			exit(-1);
+			return (-1);
 	if (!ft_strcmp(cmd->name, "pwd") || !ft_strcmp(cmd->name, "cd")
 		|| !ft_strcmp(cmd->name, "echo") || !ft_strcmp(cmd->name, "export")
 		|| !ft_strcmp(cmd->name, "env") || !ft_strcmp(cmd->name, "unset")
 		|| !ft_strcmp(cmd->name, "exit"))
-		exit(built_in_exe(cmd));
+		return (built_in_exe(cmd));
 	cmd->name = get_real_cmd(cmd);
 	if (cmd->name == NULL)
-		exit(-1);
+		return (-1);
 	execve(cmd->name, cmd->args, *(cmd->env));
-	exit(1);
+	return (1);
 }
 
 int	forking_cmd(int i_fd, t_cmd *cmd, int o_fd)
 {
 	pid_t	pid;
 
-	if (cmd->pipe == 3 && (!ft_strcmp(cmd->name, "cd") 
-		|| !ft_strcmp(cmd->name, "export") || !ft_strcmp(cmd->name, "unset")))
-		return (built_in_exe(cmd));
 	pid = fork();
-	if (pid == -1) //free and exit but we still don't know how to free
+	if (pid == -1)
 		return (-1);
 	else if (pid == 0)
 	{
-		execute_cmd(i_fd, cmd, o_fd);
+		exit(execute_cmd(i_fd, cmd, o_fd));
 		return (0);
 	}
 	if (i_fd != -1)
@@ -120,20 +117,19 @@ int	start_chain(t_cmd *cmd)
 	{
 		if (pipe(pipefd) == -1)
 			perror("Can't create pipe");
-		if (!forking_cmd(infd, cmd, pipefd[1]))
-			break ;
+		forking_cmd(infd, cmd, pipefd[1]);
 		close(pipefd[1]);
 		infd = pipefd[0];
 		cmd = cmd->next;
 	}
-	if (!cmd->next)
+	if (cmd->pipe == 3 && (!ft_strcmp(cmd->name, "cd")
+			|| !ft_strcmp(cmd->name, "export") || !ft_strcmp(cmd->name, "exit")
+			|| !ft_strcmp(cmd->name, "unset")))
+		return (built_in_exe(cmd));
+	else
 		forking_cmd(infd, cmd, -1);
 	while (waitpid(-1, &status, WUNTRACED) > 0)
-	{
-		if (WEXITSTATUS(status) == 3)
-			return (1);
-		else if (WEXITSTATUS(status))
+		if (WEXITSTATUS(status) && WEXITSTATUS(status) != 3)
 			write(2, "Error on a child process.\n", 26);
-	}
-	return (0);
+	return (WEXITSTATUS(status));
 }
