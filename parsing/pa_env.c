@@ -23,7 +23,7 @@ char	*find_env(char *nail, char **env)
 	{
 		while (env[i][j] == nail[j])
 			j++;
-		if (env[i][j] == '=')
+		if (env[i][j] == '=' && nail[j] == 0)
 			return (ft_substr(env[i], j + 1, ft_strlen(env[i]) - j));
 		i++;
 		j = 0;
@@ -31,7 +31,7 @@ char	*find_env(char *nail, char **env)
 	return (NULL);
 }
 
-int	replace_with_env(char *word, int i, char ***env)
+char	*replace_with_env(char *word, int *i, char ***env)
 {
 	char	*new;
 	char	*var;
@@ -40,37 +40,44 @@ int	replace_with_env(char *word, int i, char ***env)
 	int		j;
 
 	j = 0;
-	new = ft_substr(word, 0, i);
+	new = ft_substr(word, 0, *i);
 	var = calloc(ft_strlen(word) + 1, sizeof(char));
-	start = i;
-	i++;
-	while (!ft_whitespace(word[i]) && word[i] && word[i] != '$')
+	start = *i;
+	*i = *i + 1;
+	while (!ft_whitespace(word[*i]) && word[*i] && word[*i] != '$')
 	{
-		var[j] = word[i];
+		var[j] = word[*i];
 		j++;
-		i++;
+		*i = *i + 1;
 	}
 	temp = find_env(var, *env);
-	start = start + ft_strlen(temp);
-	ft_strjoin(new, temp);
+	if (temp != NULL)
+	{
+		start = start + ft_strlen(temp);
+		new = ft_strjoin(new, temp);
+		free(temp);
+	}
+	temp = ft_substr(word, *i, 500);
+	new = ft_strjoin(new, temp);
 	free(temp);
-	temp = ft_substr(word, i, 500);
-	ft_strjoin(new, temp);
 	free(word);
 	free(var);
-	word = new;
-	return (start);
+	*i = start - 1;
+	return (new);
 }
 
 char	*get_env_variable(char *word, char ***env)
 {
 	int		i;
+	int		in_quote;
 
 	i = 0;
+	in_quote = 0;
 	while (word[i])
 	{
-		if (word[i] == '$')
-			i = replace_with_env(word, i, env);
+		in_quote = quote_check(word[i], in_quote);
+		if (word[i] == '$' && (in_quote == 0 || in_quote == 2))
+			word = replace_with_env(word, &i, env);
 		i++;
 	}
 	return (word);

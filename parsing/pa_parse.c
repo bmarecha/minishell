@@ -14,29 +14,51 @@
 
 // gérer les quotes, variables env, par exemple cd "par""sing"
 
+char	*delete_quotes(char *word)
+{
+	int		i;
+	int		j;
+	int		in_quote;
+	char	*new;
+
+	i = 0;
+	j = 0;
+	in_quote = 0;
+	new = ft_calloc(ft_strlen(word) + 1, sizeof(char));
+	while (word[i])
+	{
+		in_quote = quote_check(word[i], in_quote);
+		if ((word[i] != '\'' || in_quote == 2) && (word[i] != '\"' || in_quote == 1))
+		{
+			new[j] = word[i];
+			j++;
+		}
+		i++;
+	}
+	free(word);
+	return (new);
+}
+
 char	*get_word(char *str, int *len, int arg, char ***env)
 {
 	int		in_quote;
-	int		quotetype;
 	int		start;
 	char	*word;
 
 	in_quote = 0;
-	quotetype = 0;
 	start = *len;
 	while ((!whitespace(str[*len]) || in_quote != 0) && (!is_pipe(str[*len])
 			|| !is_redirect(str[*len]) || in_quote != 0) && str[*len])
 	{
 		in_quote = quote_check(str[*len], in_quote);
-		if (in_quote != 0 && quotetype == 0)
-			quotetype = in_quote;
 		*len = *len + 1;
 	}
 	if (in_quote != 0)
 		return (NULL);
 	word = ft_substr(str, start, *len - start);
-	if (quotetype != 1 && arg == 1)
+	if (arg == 1)
 		word = get_env_variable(word, env);
+	word = delete_quotes(word);
 	return (word);
 }
 

@@ -43,7 +43,7 @@ void	get_redirect(char *line, int *i, t_cmd *act);
 // SIGNALS
 void	handle_sig(int sig);
 // ENV
-int	replace_with_env(char *word, int i, char ***env);
+char	*replace_with_env(char *word, int *i, char ***env);
 char	*get_env_variable(char *word, char ***env);
 char	*find_env(char *nail, char **env);
 // TEST
