@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 16:43:45 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/19 11:22:53 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/23 02:28:02 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ typedef struct s_cmd
 	char			**args;
 	char			***env;
 	int				pipe;
+	int				exit;
+	int				arg;
 
 	t_redir			*i_red;
 	t_redir			*o_red;

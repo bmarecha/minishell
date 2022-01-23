@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 02:05:24 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/19 11:25:23 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/23 02:30:05 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	**copy_env(char **env)
 	return (vne);
 }
 
-void	init_command(t_cmd *cmd, char ***env)
+void	init_command(t_cmd *cmd, char ***env, int exit)
 {
 	cmd->next = NULL;
 	cmd->prev = NULL;
@@ -50,4 +50,6 @@ void	init_command(t_cmd *cmd, char ***env)
 	cmd->env = env;
 	cmd->i_red = NULL;
 	cmd->o_red = NULL;
+	cmd->exit = exit;
+	cmd->arg = 0;
 }

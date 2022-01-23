@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:17:36 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/22 19:41:27 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/23 03:11:51 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*delete_quotes(char *word)
 	return (new);
 }
 
-char	*get_word(char *str, int *len, int arg, char ***env)
+char	*get_word(char *str, int *len, t_cmd *act, char ***env)
 {
 	int		in_quote;
 	int		start;
@@ -56,8 +56,8 @@ char	*get_word(char *str, int *len, int arg, char ***env)
 	if (in_quote != 0)
 		return (NULL);
 	word = ft_substr(str, start, *len - start);
-	if (arg == 1)
-		word = get_env_variable(word, env);
+	if (act->arg == 1)
+		word = get_env_variable(word, env, act->exit);
 	word = delete_quotes(word);
 	return (word);
 }
@@ -92,15 +92,16 @@ int	take_command(char *line, int *i, t_cmd *act, char ***env)
 	int		arg;
 
 	arg = 0;
-	act->name = get_word(line, i, 0, env);
+	act->name = get_word(line, i, act, env);
 	while (whitespace(line[*i]))
 		*i = *i + 1;
 	act->args = malloc(sizeof(char *) * calcul_arg(line, *i) + 2);
 	act->args[0] = act->name;
+	act->arg = 1;
 	arg++;
 	while (!is_pipe(line[*i]) && !is_redirect(line[*i]) && line[*i])
 	{
-		act->args[arg] = get_word(line, i, 1, env);
+		act->args[arg] = get_word(line, i, act, env);
 		arg++;
 		while (whitespace(line[*i]))
 			*i = *i + 1;
@@ -115,7 +116,7 @@ int	take_command(char *line, int *i, t_cmd *act, char ***env)
 	return (1);
 }
 
-t_cmd	*get_line(char *line, char ***env)
+t_cmd	*get_line(char *line, char ***env, int exit)
 {
 	t_cmd	*act;
 	t_cmd	*new;
@@ -125,7 +126,7 @@ t_cmd	*get_line(char *line, char ***env)
 	i = 0;
 	act = malloc(sizeof(t_cmd));
 	tokens = act;
-	init_command(act, env);
+	init_command(act, env, exit);
 	while (line[i])
 	{
 		while (whitespace(line[i]))
@@ -134,7 +135,7 @@ t_cmd	*get_line(char *line, char ***env)
 		if (line[i])
 		{
 			new = malloc(sizeof(t_cmd));
-			init_command(new, env);
+			init_command(new, env, exit);
 			new->prev = act;
 			act->next = new;
 			act = new;
@@ -162,7 +163,7 @@ char	*get_prompt(char **env)
 	return (prompt);
 }
 
-int	read_line(char ***env)
+int	read_line(char ***env, struct sigaction *sa1, struct sigaction *sa2)
 {
 	char	*line;
 	t_cmd	*tokens;
@@ -171,15 +172,22 @@ int	read_line(char ***env)
 
 	line = NULL;
 	tokens = NULL;
+	(void)sa2;
+	sigaction(SIGINT, sa1, NULL);
+	sigaction(SIGQUIT, sa1, NULL);
 	prompt = get_prompt(*env);
 	line = readline(prompt);
 	add_history(line);
 	exit = 0;
 	while (line != NULL)
 	{
-		tokens = get_line(line, env);
+		tokens = get_line(line, env, exit);
 		show_tokens(tokens);
+		sigaction(SIGINT, sa2, NULL);
+		sigaction(SIGQUIT, sa2, NULL);
 		exit = start_chain(tokens);
+		sigaction(SIGINT, sa1, NULL);
+		sigaction(SIGQUIT, sa1, NULL);
 		free(line);
 		free(prompt);
 		if (exit == 3)
@@ -198,15 +206,17 @@ int	main(int ac, char **av, char **env)
 {
 	char	**new_env;
 	struct	sigaction	sa1;
+	struct	sigaction	sa2;
 
 	sa1.sa_flags = SA_RESTART;
 	sa1.sa_handler = &handle_sig;
 	sigemptyset(&sa1.sa_mask);
-	sigaction(SIGINT, &sa1, NULL);
-	sigaction(SIGQUIT, &sa1, NULL);
+	sa2.sa_flags = SA_RESTART;
+	sa2.sa_handler = SIG_IGN;
+	sigemptyset(&sa2.sa_mask);
 	(void)ac;
 	(void)av;
 	new_env = copy_env(env);
-	read_line(&new_env);
+	read_line(&new_env, &sa1, &sa2);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 05:20:31 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/21 05:26:42 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/23 02:34:54 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*find_env(char *nail, char **env)
 	return (NULL);
 }
 
-char	*replace_with_env(char *word, int *i, char ***env)
+char	*replace_with_env(char *word, int *i, char ***env, int exit)
 {
 	char	*new;
 	char	*var;
@@ -50,7 +50,10 @@ char	*replace_with_env(char *word, int *i, char ***env)
 		j++;
 		*i = *i + 1;
 	}
-	temp = find_env(var, *env);
+	if (var[0] == '?' && var[1] == 0)
+		temp = ft_itoa(exit);
+	else
+		temp = find_env(var, *env);
 	if (temp != NULL)
 	{
 		start = start + ft_strlen(temp);
@@ -66,7 +69,7 @@ char	*replace_with_env(char *word, int *i, char ***env)
 	return (new);
 }
 
-char	*get_env_variable(char *word, char ***env)
+char	*get_env_variable(char *word, char ***env, int exit)
 {
 	int		i;
 	int		in_quote;
@@ -77,7 +80,7 @@ char	*get_env_variable(char *word, char ***env)
 	{
 		in_quote = quote_check(word[i], in_quote);
 		if (word[i] == '$' && (in_quote == 0 || in_quote == 2))
-			word = replace_with_env(word, &i, env);
+			word = replace_with_env(word, &i, env, exit);
 		i++;
 	}
 	return (word);
