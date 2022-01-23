@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:53:56 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/23 02:46:58 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/23 05:07:28 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,22 +29,22 @@ int		quote_check(char c, int in_quote);
 char	**copy_env(char **env);
 void	init_command(t_cmd *cmd, char ***env, int exit);
 // PARSE
-char	*get_word(char *str, int *len, t_cmd *act, char ***env);
+char	*get_word(char *str, int *len, t_cmd *act);
 void	get_pipe(char *line, int *i, t_cmd *act);
-int		take_command(char *line, int *i, t_cmd *act, char ***env);
+int		take_command(char *line, int *i, t_cmd *act);
 t_cmd	*get_line(char *line, char ***env, int exit);
 int		read_line(char ***env, struct sigaction *sa1, struct sigaction *sa2);
 // REDIRECTIONS
 int		is_redirect(char c);
 void	clean_redir(t_cmd *act);
 int		wich_redirect(char *line, int *i);
-t_redir	*create_redirect(char *line, int *i, int type);
+t_redir	*create_redirect(char *line, int *i, int type, t_cmd *act);
 void	get_redirect(char *line, int *i, t_cmd *act);
 // SIGNALS
 void	handle_sig(int sig);
 // ENV
-char	*replace_with_env(char *word, int *i, char ***env, int exit);
-char	*get_env_variable(char *word, char ***env, int exit);
+char	*replace_with_env(char *word, int *i, t_cmd *act, int in_quote);
+char	*get_env_variable(char *word, t_cmd *act);
 char	*find_env(char *nail, char **env);
 // TEST
 void	show_red(t_cmd *tokens);

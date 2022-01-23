@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:17:36 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/23 03:11:51 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/23 05:11:39 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*delete_quotes(char *word)
 	while (word[i])
 	{
 		in_quote = quote_check(word[i], in_quote);
-		if ((word[i] != '\'' || in_quote == 2) && (word[i] != '\"' || in_quote == 1))
+		if ((word[i] != '\'' || in_quote == 2) && (word[i] != '\"' || in_quote == 1) && word[i])
 		{
 			new[j] = word[i];
 			j++;
@@ -39,7 +39,7 @@ char	*delete_quotes(char *word)
 	return (new);
 }
 
-char	*get_word(char *str, int *len, t_cmd *act, char ***env)
+char	*get_word(char *str, int *len, t_cmd *act)
 {
 	int		in_quote;
 	int		start;
@@ -47,8 +47,8 @@ char	*get_word(char *str, int *len, t_cmd *act, char ***env)
 
 	in_quote = 0;
 	start = *len;
-	while ((!whitespace(str[*len]) || in_quote != 0) && (!is_pipe(str[*len])
-			|| !is_redirect(str[*len]) || in_quote != 0) && str[*len])
+	while ((!whitespace(str[*len]) || in_quote) && (!is_pipe(str[*len]) || in_quote)
+			&& (!is_redirect(str[*len]) || in_quote) && str[*len])
 	{
 		in_quote = quote_check(str[*len], in_quote);
 		*len = *len + 1;
@@ -57,7 +57,7 @@ char	*get_word(char *str, int *len, t_cmd *act, char ***env)
 		return (NULL);
 	word = ft_substr(str, start, *len - start);
 	if (act->arg == 1)
-		word = get_env_variable(word, env, act->exit);
+		word = get_env_variable(word, act);
 	word = delete_quotes(word);
 	return (word);
 }
@@ -87,12 +87,12 @@ void	get_pipe(char *line, int *i, t_cmd *act)
 	}
 }
 
-int	take_command(char *line, int *i, t_cmd *act, char ***env)
+int	take_command(char *line, int *i, t_cmd *act)
 {
 	int		arg;
 
 	arg = 0;
-	act->name = get_word(line, i, act, env);
+	act->name = get_word(line, i, act);
 	while (whitespace(line[*i]))
 		*i = *i + 1;
 	act->args = malloc(sizeof(char *) * calcul_arg(line, *i) + 2);
@@ -101,7 +101,7 @@ int	take_command(char *line, int *i, t_cmd *act, char ***env)
 	arg++;
 	while (!is_pipe(line[*i]) && !is_redirect(line[*i]) && line[*i])
 	{
-		act->args[arg] = get_word(line, i, act, env);
+		act->args[arg] = get_word(line, i, act);
 		arg++;
 		while (whitespace(line[*i]))
 			*i = *i + 1;
@@ -131,7 +131,7 @@ t_cmd	*get_line(char *line, char ***env, int exit)
 	{
 		while (whitespace(line[i]))
 			i++;
-		take_command(line, &i, act, env);
+		take_command(line, &i, act);
 		if (line[i])
 		{
 			new = malloc(sizeof(t_cmd));
