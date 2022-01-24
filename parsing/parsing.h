@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:53:56 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/23 05:07:28 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/24 05:21:09 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,12 @@ t_cmd	*get_line(char *line, char ***env, int exit);
 int		read_line(char ***env, struct sigaction *sa1, struct sigaction *sa2);
 // REDIRECTIONS
 int		is_redirect(char c);
-void	clean_redir(t_cmd *act);
+void	clean_redir(t_cmd *act, int redirect);
 int		wich_redirect(char *line, int *i);
 t_redir	*create_redirect(char *line, int *i, int type, t_cmd *act);
 void	get_redirect(char *line, int *i, t_cmd *act);
 // SIGNALS
+void	manage_sig(int interactive, struct sigaction *s1, struct sigaction *s2);
 void	handle_sig(int sig);
 // ENV
 char	*replace_with_env(char *word, int *i, t_cmd *act, int in_quote);
@@ -54,5 +55,10 @@ void	ft_putchar(char c);
 void	ft_putstr(char *str);
 int		calcul_arg(char *line, int i);
 char	*ft_substr(char *s, int start, int len);
+char	*delete_quotes(char *word);
+char	*get_prompt(char **env);
+char	*reading(char *line, char ***env);
+void	start_command(char *line, int *i, t_cmd *act, int *arg);
+void	get_pipe(char *line, int *i, t_cmd *act);
 
 #endif
