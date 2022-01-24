@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:53:56 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/24 17:27:07 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/24 17:58:32 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int		quote_check(char c, int in_quote);
 // INIT
 char	**copy_env(char **env);
 void	init_command(t_cmd *cmd, char ***env, int exit);
+void	check_init(t_checkerror *error);
 // PARSE
 char	*get_word(char *str, int *len, t_cmd *act);
 void	get_pipe(char *line, int *i, t_cmd *act);
@@ -53,6 +54,8 @@ void	get_redirect(char *line, int *i, t_cmd *act);
 // SIGNALS
 void	manage_sig(int interactive, struct sigaction *s1, struct sigaction *s2);
 void	handle_sig(int sig);
+// ERROR
+t_cmd	*check_error(char *line, t_cmd *tokens);
 // ENV
 char	*replace_with_env(char *word, int *i, t_cmd *act, int in_quote);
 char	*get_env_variable(char *word, t_cmd *act);
