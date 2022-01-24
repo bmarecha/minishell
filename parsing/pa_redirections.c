@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 00:53:16 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/24 05:20:57 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/24 20:58:29 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,10 @@ t_redir	*create_redirect(char *line, int *i, int type, t_cmd *act)
 	redir = malloc(sizeof(t_redir) * 1);
 	while (whitespace(line[*i]))
 		*i = *i + 1;
-	redir->file = get_word(line, i, act);
+	if (type == 2)
+		redir->file = get_heredoc(line, i, act);
+	else
+		redir->file = get_word(line, i, act);
 	redir->type = type;
 	return (redir);
 }

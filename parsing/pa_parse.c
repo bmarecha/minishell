@@ -30,8 +30,7 @@ char	*get_word(char *str, int *len, t_cmd *act)
 	if (in_quote != 0)
 		return (NULL);
 	word = ft_substr(str, start, *len - start);
-	if (act->arg == 1)
-		word = get_env_variable(word, act);
+	word = get_env_variable(word, act);
 	word = delete_quotes(word);
 	return (word);
 }
