@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:53:56 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/24 17:58:32 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/24 18:14:23 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ t_cmd	*check_error(char *line, t_cmd *tokens);
 // ENV
 char	*replace_with_env(char *word, int *i, t_cmd *act, int in_quote);
 char	*get_env_variable(char *word, t_cmd *act);
-char	*find_env(char *nail, char **env);
 // TEST
 void	show_red(t_cmd *tokens);
 void	show_tokens(t_cmd *tokens);

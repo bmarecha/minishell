@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 16:43:45 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/24 17:07:15 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/24 18:14:39 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_cmd
 	t_redir			*o_red;
 }					t_cmd;
 
+char	*find_env(char *nail, char **env);
 int	start_chain(t_cmd *cmd);
 void	free_all_cmd(t_cmd *cmd);
 

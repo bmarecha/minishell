@@ -6,7 +6,7 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 16:42:41 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/12 23:48:51 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/24 18:13:57 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*get_real_cmd(t_cmd *cmd)
 	}
 	if (!access(cmd->name, R_OK))
 		return (cmd->name);
-	path = getenv("PATH");
+	path = find_env("PATH", *cmd->env);
 	paths = ft_split(path, ":");
 	if (!paths)
 		return (NULL);
