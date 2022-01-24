@@ -37,7 +37,7 @@ $(LIBFT) :
 
 $(NAME)	: ${OBJS}
 	@make --no-print-directory -C libft
-	gcc -g -o ${NAME} ${OBJS} ${INCLUDES} ${LIBS}
+	gcc -o ${NAME} ${OBJS} ${INCLUDES} ${LIBS}
 
 clean	:
 	rm -f ${OBJS}

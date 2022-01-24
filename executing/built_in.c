@@ -6,7 +6,7 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 12:56:32 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/21 15:04:55 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/24 20:47:41 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	ft_echo(t_cmd *cmd)
 
 int	ft_exit(t_cmd *cmd)
 {
-	free_all_cmd(cmd);
+	cmd = cmd;
 	return (3);
 }
 

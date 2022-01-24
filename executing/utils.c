@@ -6,7 +6,7 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 15:08:40 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/19 14:16:02 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/24 19:58:26 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	free_all_cmd(t_cmd *cmd)
 		cmd = cmd->next;
 	if (cmd->i_red)
 	{
+		if (cmd->i_red->type == 2)
+			unlink(cmd->i_red->file);
 		free(cmd->i_red->file);
 		free(cmd->i_red);
 	}

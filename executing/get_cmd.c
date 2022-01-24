@@ -6,7 +6,7 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 16:42:41 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/24 18:13:57 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/24 20:44:06 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*get_real_cmd(t_cmd *cmd)
 	char	**paths;
 	char	*path;
 
-	if (!cmd->name)
+	if (!cmd->name || !cmd->name[0])
 	{
 		write(2, "Command name missing.\n", 18);
 		return (NULL);
@@ -53,6 +53,7 @@ char	*get_real_cmd(t_cmd *cmd)
 		return (cmd->name);
 	path = find_env("PATH", *cmd->env);
 	paths = ft_split(path, ":");
+	free(path);
 	if (!paths)
 		return (NULL);
 	return (find_path(cmd->name, paths));

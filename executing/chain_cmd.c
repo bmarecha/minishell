@@ -6,7 +6,7 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 19:48:16 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/24 19:29:29 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/24 20:29:08 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ int	dupout(int o_fd, t_cmd *cmd)
 			exit(-1);
 		}
 		if (cmd->o_red->type == 3)
-			fd = open(cmd->o_red->file,
-					O_WRONLY | O_APPEND | O_CREAT | O_TRUNC, 00666);
+			fd = open(cmd->o_red->file, O_WRONLY | O_APPEND | O_CREAT, 00666);
 		else
 			fd = open(cmd->o_red->file, O_WRONLY | O_CREAT | O_TRUNC, 00666);
 		if (fd == -1)
@@ -85,6 +84,7 @@ int	execute_cmd(int i_fd, t_cmd *cmd, int o_fd)
 	cmd->name = get_real_cmd(cmd);
 	if (cmd->name == NULL)
 		return (-1);
+	cmd->args[0] = cmd->name;
 	execve(cmd->name, cmd->args, *(cmd->env));
 	return (1);
 }
