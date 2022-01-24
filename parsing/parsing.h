@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:53:56 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/24 18:14:23 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/24 20:56:58 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <fcntl.h>
 
 typedef struct	s_checkerror
 {
@@ -29,7 +30,6 @@ typedef struct	s_checkerror
 	int			cti;
 	int			cto;
 }				t_checkerror;
-
 
 // CHECK
 int		ft_whitespace(char c);
@@ -45,6 +45,8 @@ void	get_pipe(char *line, int *i, t_cmd *act);
 int		take_command(char *line, int *i, t_cmd *act);
 t_cmd	*get_line(char *line, char ***env, int exit);
 int		read_line(char ***env, struct sigaction *sa1, struct sigaction *sa2);
+// HEREDOC
+char	*get_heredoc(char *line, int *i, t_cmd *act);
 // REDIRECTIONS
 int		is_redirect(char c);
 void	clean_redir(t_cmd *act, int redirect);
