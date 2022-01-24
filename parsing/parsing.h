@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:53:56 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/24 05:21:09 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/24 17:27:07 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,16 @@
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+
+typedef struct	s_checkerror
+{
+	int			i;
+	int			iq;
+	int			cp;
+	int			cti;
+	int			cto;
+}				t_checkerror;
+
 
 // CHECK
 int		ft_whitespace(char c);

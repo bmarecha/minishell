@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 16:43:45 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/23 02:28:02 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/24 17:07:15 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,6 @@ typedef struct s_cmd
 }					t_cmd;
 
 int	start_chain(t_cmd *cmd);
+void	free_all_cmd(t_cmd *cmd);
 
 #endif
