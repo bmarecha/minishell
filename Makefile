@@ -8,6 +8,7 @@ SRCS	=	parsing/pa_init.c \
 			parsing/pa_redirections.c \
 			parsing/pa_env.c \
 			parsing/pa_error.c \
+			parsing/pa_heredoc.c \
 			executing/chain_cmd.c \
 			executing/built_in.c \
 			executing/vne_built_in.c \

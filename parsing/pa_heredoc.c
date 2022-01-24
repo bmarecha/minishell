@@ -1,3 +1,5 @@
+#include "parsing.h"
+
 void	heredoc_fill_file(char *read, char *delimiter, int fd)
 {
 	read = readline(">");
