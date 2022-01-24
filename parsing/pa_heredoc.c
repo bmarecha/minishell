@@ -15,6 +15,8 @@ void	heredoc_fill_file(char *read, char *delimiter, int fd)
 		free(read);
 		read = readline(">");
 	}
+	if (read)
+		free(read);
 }
 
 char	*get_heredoc(char *line, int *i, t_cmd *act)
