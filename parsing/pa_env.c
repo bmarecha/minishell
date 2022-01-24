@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 05:20:31 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/21 05:26:42 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/24 02:33:59 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,26 +31,39 @@ char	*find_env(char *nail, char **env)
 	return (NULL);
 }
 
-char	*replace_with_env(char *word, int *i, char ***env)
+char	*replace_in_word(char *word, int *i, int *start, int in_quote)
 {
-	char	*new;
-	char	*var;
-	char	*temp;
-	int		start;
 	int		j;
+	char	*var;
 
 	j = 0;
-	new = ft_substr(word, 0, *i);
-	var = calloc(ft_strlen(word) + 1, sizeof(char));
-	start = *i;
+	*start = *i;
 	*i = *i + 1;
-	while (!ft_whitespace(word[*i]) && word[*i] && word[*i] != '$')
+	var = calloc(ft_strlen(word) + 1, sizeof(char));
+	while (!ft_whitespace(word[*i]) && word[*i] && word[*i] != '$'
+		&& word[*i] != '\"' && (!is_pipe(word[*i]) || in_quote)
+		&& (!is_redirect(word[*i]) || in_quote))
 	{
 		var[j] = word[*i];
 		j++;
 		*i = *i + 1;
 	}
-	temp = find_env(var, *env);
+	return (var);
+}
+
+char	*replace_with_env(char *word, int *i, t_cmd *act, int in_quote)
+{
+	char	*new;
+	char	*var;
+	char	*temp;
+	int		start;
+
+	new = ft_substr(word, 0, *i);
+	var = replace_in_word(word, i, &start, in_quote);
+	if (var[0] == '?' && var[1] == 0)
+		temp = ft_itoa(act->exit);
+	else
+		temp = find_env(var, *act->env);
 	if (temp != NULL)
 	{
 		start = start + ft_strlen(temp);
@@ -66,7 +79,7 @@ char	*replace_with_env(char *word, int *i, char ***env)
 	return (new);
 }
 
-char	*get_env_variable(char *word, char ***env)
+char	*get_env_variable(char *word, t_cmd *act)
 {
 	int		i;
 	int		in_quote;
@@ -77,7 +90,7 @@ char	*get_env_variable(char *word, char ***env)
 	{
 		in_quote = quote_check(word[i], in_quote);
 		if (word[i] == '$' && (in_quote == 0 || in_quote == 2))
-			word = replace_with_env(word, &i, env);
+			word = replace_with_env(word, &i, act, in_quote);
 		i++;
 	}
 	return (word);

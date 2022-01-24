@@ -3,9 +3,11 @@ SRCS	=	parsing/pa_init.c \
 			parsing/pa_parse.c \
 			parsing/pa_signals.c \
 			parsing/pa_test.c \
-			parsing/pa_utils.c \
+			parsing/pa_utils1.c \
+			parsing/pa_utils2.c \
 			parsing/pa_redirections.c \
 			parsing/pa_env.c \
+			parsing/pa_error.c \
 			executing/chain_cmd.c \
 			executing/built_in.c \
 			executing/vne_built_in.c \

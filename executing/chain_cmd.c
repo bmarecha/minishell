@@ -6,7 +6,7 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 19:48:16 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/22 19:51:30 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/24 19:29:29 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	dupin(int i_fd, t_cmd *cmd)
 {
 	int	fd;
 
-	if (cmd->i_red && cmd->i_red->type == 1)
+	if (cmd->i_red && cmd->i_red->type <= 2)
 	{
 		if (access(cmd->i_red->file, R_OK))
 		{
