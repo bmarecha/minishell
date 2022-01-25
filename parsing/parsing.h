@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:53:56 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/25 15:52:47 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/25 16:49:37 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,6 @@ char	*get_prompt(char **env);
 char	*reading(char *line, char ***env);
 void	start_command(char *line, int *i, t_cmd *act, int *arg);
 void	get_pipe(char *line, int *i, t_cmd *act);
+t_cmd	*get_first_cmd(t_cmd *cmd);
 
 #endif

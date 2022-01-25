@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:17:36 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/25 16:09:45 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/25 17:10:32 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ int	take_command(char *line, int *i, t_cmd *act)
 		if (is_pipe(line[*i]) || !line[*i])
 			break ;
 		act->args[arg] = get_word(line, i, act);
-		arg++;
+		if (act->args[arg] != NULL)
+			arg++;
 		while (whitespace(line[*i]))
 			*i = *i + 1;
 	}
@@ -66,13 +67,13 @@ t_cmd	*get_line(char *line, char ***env, int exit)
 {
 	t_cmd	*act;
 	t_cmd	*new;
-	t_cmd	*tokens;
 	int		i;
 
 	i = 0;
 	act = malloc(sizeof(t_cmd));
-	tokens = act;
 	init_command(act, env, exit);
+	if (!check_error(line, act))
+		return (NULL);
 	while (line[i])
 	{
 		while (whitespace(line[i]))
@@ -87,8 +88,7 @@ t_cmd	*get_line(char *line, char ***env, int exit)
 			act = new;
 		}
 	}
-	tokens = check_error(line, tokens);
-	return (tokens);
+	return (get_first_cmd(act));
 }
 
 int	read_line(char ***env, struct sigaction *sa1, struct sigaction *sa2)

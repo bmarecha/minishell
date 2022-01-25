@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 17:56:15 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/25 15:51:48 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/25 16:28:46 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 t_cmd	*get_error(char c, t_cmd *tokens)
 {
-	free_all_cmd(tokens);
 	if (c == '|')
 		ft_putstr_fd("minishell: erreur de syntaxe \
 près du symbole inattendu « | »\n", 2);
@@ -24,6 +23,8 @@ près du symbole inattendu « > »\n", 2);
 	if (c == '<')
 		ft_putstr_fd("minishell: erreur de syntaxe \
 près du symbole inattendu « < »\n", 2);
+	if (tokens)
+		free_all_cmd(tokens);
 	return (NULL);
 }
 
