@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 05:20:31 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/25 17:09:31 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/25 17:47:51 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ char	*get_env_variable(char *word, t_cmd *act)
 
 	i = 0;
 	in_quote = 0;
+	if (!word)
+		return (NULL);
 	while (word[i])
 	{
 		in_quote = quote_check(word[i], in_quote);

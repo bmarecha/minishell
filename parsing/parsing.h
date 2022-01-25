@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:53:56 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/25 16:49:37 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/25 18:15:32 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	check_init(t_checkerror *error);
 // PARSE
 char	*get_word(char *str, int *len, t_cmd *act);
 void	get_pipe(char *line, int *i, t_cmd *act);
-int		take_command(char *line, int *i, t_cmd *act);
+void	take_command(char *line, int *i, t_cmd *act);
 t_cmd	*get_line(char *line, char ***env, int exit);
 int		read_line(char ***env, struct sigaction *sa1, struct sigaction *sa2);
 // HEREDOC
@@ -72,7 +72,7 @@ char	*ft_substr(char *s, int start, int len);
 char	*delete_quotes(char *word);
 char	*get_prompt(char **env);
 char	*reading(char *line, char ***env);
-void	start_command(char *line, int *i, t_cmd *act, int *arg);
+int		start_command(char *line, int *i, t_cmd *act, int *arg);
 void	get_pipe(char *line, int *i, t_cmd *act);
 t_cmd	*get_first_cmd(t_cmd *cmd);
 
