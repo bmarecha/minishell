@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 04:54:34 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/25 16:52:23 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/25 18:12:28 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*reading(char *line, char ***env)
 	return (line);
 }
 
-void	start_command(char *line, int *i, t_cmd *act, int *arg)
+int	start_command(char *line, int *i, t_cmd *act, int *arg)
 {
 	while (is_redirect(line[*i]))
 	{
@@ -56,12 +56,15 @@ void	start_command(char *line, int *i, t_cmd *act, int *arg)
 			*i = *i + 1;
 	}
 	act->name = get_word(line, i, act);
+	if (act->name == NULL)
+		return (0);
 	while (whitespace(line[*i]))
 		*i = *i + 1;
 	act->args = calloc(calcul_arg(line, *i) + 3, sizeof(char *));
 	act->args[0] = act->name;
 	act->arg = 1;
 	*arg = *arg + 1;
+	return (1);
 }
 
 void	get_pipe(char *line, int *i, t_cmd *act)

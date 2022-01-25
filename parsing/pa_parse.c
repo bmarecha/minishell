@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:17:36 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/25 17:10:32 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/25 18:15:58 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ char	*get_word(char *str, int *len, t_cmd *act)
 
 	in_quote = 0;
 	start = *len;
+	word = NULL;
 	while ((!whitespace(str[*len]) || in_quote)
 		&& (!is_pipe(str[*len]) || in_quote)
 		&& (!is_redirect(str[*len]) || in_quote) && str[*len])
@@ -29,18 +30,20 @@ char	*get_word(char *str, int *len, t_cmd *act)
 	}
 	if (in_quote != 0)
 		return (NULL);
-	word = ft_substr(str, start, *len - start);
+	if (*len != start)
+		word = ft_substr(str, start, *len - start);
 	word = get_env_variable(word, act);
 	word = delete_quotes(word);
 	return (word);
 }
 
-int	take_command(char *line, int *i, t_cmd *act)
+void	take_command(char *line, int *i, t_cmd *act)
 {
 	int		arg;
 
 	arg = 0;
-	start_command(line, i, act, &arg);
+	if (!start_command(line, i, act, &arg))
+		return ;
 	while (!is_pipe(line[*i]) && line[*i])
 	{
 		if (is_redirect(line[*i]))
@@ -60,7 +63,6 @@ int	take_command(char *line, int *i, t_cmd *act)
 		*i = *i + 1;
 	if (is_pipe(line[*i]) || line[*i] == 0)
 		get_pipe(line, i, act);
-	return (1);
 }
 
 t_cmd	*get_line(char *line, char ***env, int exit)
