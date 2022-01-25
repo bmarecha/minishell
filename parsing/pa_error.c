@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 17:56:15 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/25 21:25:54 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/25 22:37:02 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,4 +98,15 @@ t_cmd	*check_error(char *line, t_cmd *tokens)
 	}
 	tokens = show_error(e, tokens);
 	return (tokens);
+}
+
+int	go_to_pipe(char *line, int *i, t_cmd *cmd)
+{
+	int		in_quote;
+
+	in_quote = 0;
+	while (line[*i] != 0 && (!is_pipe(line[*i]) || in_quote != 0))
+		*i = *i + 1;
+	get_pipe(line, i, cmd);
+	return (0);
 }

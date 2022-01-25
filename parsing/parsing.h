@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:53:56 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/25 19:19:34 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/25 22:44:54 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,14 @@ int		is_redirect(char c);
 void	clean_redir(t_cmd *act, int redirect);
 int		wich_redirect(char *line, int *i);
 t_redir	*create_redirect(char *line, int *i, int type, t_cmd *act);
-void	get_redirect(char *line, int *i, t_cmd *act);
+int		get_redirect(char *line, int *i, t_cmd *act);
 // SIGNALS
 void	manage_sig(int interactive, struct sigaction *s1, struct sigaction *s2);
 void	handle_sig(int sig);
 void	handle_sig_two(int sig);
 // ERROR
 t_cmd	*check_error(char *line, t_cmd *tokens);
+int		go_to_pipe(char *line, int *i, t_cmd *cmd);
 // ENV
 char	*replace_with_env(char *word, int *i, t_cmd *act, int in_quote);
 char	*get_env_variable(char *word, t_cmd *act);
@@ -73,7 +74,7 @@ char	*ft_substr(char *s, int start, int len);
 char	*delete_quotes(char *word);
 char	*get_prompt(char **env);
 char	*reading(char *line, char ***env);
-int		start_command(char *line, int *i, t_cmd *act, int *arg);
+int		start_command(char *line, int *i, t_cmd *act);
 void	get_pipe(char *line, int *i, t_cmd *act);
 t_cmd	*get_first_cmd(t_cmd *cmd);
 

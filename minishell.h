@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 16:43:45 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/25 16:08:12 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/25 21:48:56 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 typedef struct s_redir
 {
+	int		access;
 	char	*file;
 	int		type;
 }				t_redir;

@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:17:36 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/25 20:09:27 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/25 22:47:51 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,26 +39,25 @@ char	*get_word(char *str, int *len, t_cmd *act)
 
 void	take_command(char *line, int *i, t_cmd *act)
 {
-	int		arg;
-
-	arg = 0;
-	if (!start_command(line, i, act, &arg))
+	if (!start_command(line, i, act))
 		return ;
 	while (!is_pipe(line[*i]) && line[*i])
 	{
 		if (is_redirect(line[*i]))
-			get_redirect(line, i, act);
+		{
+			if (!get_redirect(line, i, act))
+				return ;
+		}
 		while (whitespace(line[*i]))
 			*i = *i + 1;
 		if (is_pipe(line[*i]) || !line[*i])
 			break ;
-		act->args[arg] = get_word(line, i, act);
-		if (act->args[arg] != NULL)
-			arg++;
+		act->args[act->arg] = get_word(line, i, act);
+		if (act->args[act->arg] != NULL)
+			act->arg = act->arg + 1;
 		while (whitespace(line[*i]))
 			*i = *i + 1;
 	}
-	act->args[arg] = NULL;
 	while (whitespace(line[*i]))
 		*i = *i + 1;
 	if (is_pipe(line[*i]) || line[*i] == 0)

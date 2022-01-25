@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 04:54:34 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/25 20:16:32 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/25 22:45:24 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,12 @@ char	*reading(char *line, char ***env)
 	return (line);
 }
 
-int	start_command(char *line, int *i, t_cmd *act, int *arg)
+int	start_command(char *line, int *i, t_cmd *act)
 {
 	while (is_redirect(line[*i]))
 	{
-		get_redirect(line, i, act);
+		if (!get_redirect(line, i, act))
+			return (0);
 		while (whitespace(line[*i]))
 			*i = *i + 1;
 	}
@@ -68,7 +69,6 @@ int	start_command(char *line, int *i, t_cmd *act, int *arg)
 	act->args = calloc(calcul_arg(line, *i) + 3, sizeof(char *));
 	act->args[0] = act->name;
 	act->arg = 1;
-	*arg = *arg + 1;
 	return (1);
 }
 

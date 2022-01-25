@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 00:53:16 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/24 20:58:29 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/25 22:40:03 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,15 +67,22 @@ t_redir	*create_redirect(char *line, int *i, int type, t_cmd *act)
 	redir = malloc(sizeof(t_redir) * 1);
 	while (whitespace(line[*i]))
 		*i = *i + 1;
+	redir->access = 1;
 	if (type == 2)
 		redir->file = get_heredoc(line, i, act);
 	else
+	{
 		redir->file = get_word(line, i, act);
+		if (type == 1 && access(redir->file, R_OK))
+			redir->access = 0;
+		else if (access(redir->file, W_OK))
+			redir->access = 0;
+	}
 	redir->type = type;
 	return (redir);
 }
 
-void	get_redirect(char *line, int *i, t_cmd *act)
+int	get_redirect(char *line, int *i, t_cmd *act)
 {
 	int		redirect;
 
@@ -90,4 +97,9 @@ void	get_redirect(char *line, int *i, t_cmd *act)
 		act->o_red = create_redirect(line, i, 4, act);
 	else if (redirect == 4)
 		act->o_red = create_redirect(line, i, 3, act);
+	if (act->o_red && act->o_red->access == 0)
+		return (go_to_pipe(line, i, act));
+	if (act->i_red && act->i_red->access == 0)
+		return (go_to_pipe(line, i, act));
+	return (1);
 }
