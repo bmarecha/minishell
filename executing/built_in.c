@@ -6,7 +6,7 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 12:56:32 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/25 18:08:12 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/25 19:47:16 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,7 @@ int	ft_exit(t_cmd *cmd)
 		}
 		if (cmd->args[2])
 		{
-			join_write(STDOUT_FILENO, "minishell: exit: ",
-				"too many arguments");
+			write(STDOUT_FILENO, "minishell: exit: too many arguments\n", 36);
 			return (1);
 		}
 	}

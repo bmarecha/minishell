@@ -6,7 +6,7 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 01:25:45 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/19 14:05:14 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/25 19:48:54 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	ft_export(t_cmd *cmd)
 		while (var[++i])
 			if (var[i] == '=' || (!ft_isalnum((int)var[i]) && var[i] != '_'))
 				break ;
-		if (var[i] != '=')
+		if (var[i] && !ft_isalnum((int)var[i]) && var[i] != '_')
 			join_write(STDERR_FILENO, "export: identifiant non valable :", var);
 		else if (var[i])
 			*(cmd->env) = add_env(*(cmd->env), var);
