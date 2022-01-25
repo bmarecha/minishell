@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:53:56 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/25 18:15:32 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/25 19:19:34 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	get_redirect(char *line, int *i, t_cmd *act);
 // SIGNALS
 void	manage_sig(int interactive, struct sigaction *s1, struct sigaction *s2);
 void	handle_sig(int sig);
+void	handle_sig_two(int sig);
 // ERROR
 t_cmd	*check_error(char *line, t_cmd *tokens);
 // ENV
