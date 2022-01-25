@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 04:54:34 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/25 18:12:28 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/25 20:16:32 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ char	*get_prompt(char **env)
 	prompt = NULL;
 	prompt = ft_strdup("");
 	temp = find_env("USER", env);
+	if (!temp)
+	{
+		free(prompt);
+		return (ft_strdup("$> "));
+	}
 	ok = ft_strjoin(prompt, temp);
 	free(prompt);
 	prompt = ft_strjoin(ok, ":");

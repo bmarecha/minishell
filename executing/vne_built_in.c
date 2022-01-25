@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vne_built_in.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 01:25:45 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/25 19:48:54 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/25 20:19:32 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	ft_export(t_cmd *cmd)
 		while (var[++i])
 			if (var[i] == '=' || (!ft_isalnum((int)var[i]) && var[i] != '_'))
 				break ;
-		if (var[i] && !ft_isalnum((int)var[i]) && var[i] != '_')
+		if (var[i] && !ft_isalnum((int)var[i]) && var[i] != '_' && var[i] != '=')
 			join_write(STDERR_FILENO, "export: identifiant non valable :", var);
 		else if (var[i])
 			*(cmd->env) = add_env(*(cmd->env), var);

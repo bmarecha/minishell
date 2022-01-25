@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 16:42:41 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/25 18:40:01 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/25 20:13:37 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,11 @@ char	*get_real_cmd(t_cmd *cmd)
 	if (!access(cmd->name, R_OK))
 		return (cmd->name);
 	path = find_env("PATH", *cmd->env);
+	if (path == NULL)
+	{
+		write(STDERR_FILENO, "PATH missing.\n", 14);
+		return (NULL);
+	}
 	paths = ft_split(path, ":");
 	free(path);
 	if (!paths)
