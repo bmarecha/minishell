@@ -6,7 +6,7 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 12:56:32 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/24 20:47:41 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/25 18:08:12 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,32 @@ int	ft_echo(t_cmd *cmd)
 
 int	ft_exit(t_cmd *cmd)
 {
-	cmd = cmd;
-	return (3);
+	int	res;
+
+	res = 0;
+	if (cmd && cmd->name && cmd->args[1])
+	{
+		res = ft_atoi(cmd->args[1]);
+		if (errno == ERANGE)
+		{
+			if (cmd->pipe == 3)
+				write(1, "exit\n", 5);
+			join_write(STDOUT_FILENO, "minishell: exit: ",
+				"numeric argument required");
+			res = 2;
+		}
+		if (cmd->args[2])
+		{
+			join_write(STDOUT_FILENO, "minishell: exit: ",
+				"too many arguments");
+			return (1);
+		}
+	}
+	if (cmd->pipe == 3 && errno != ERANGE)
+		write(1, "exit\n", 5);
+	free_split(cmd->env);
+	free_all_cmd(cmd);
+	exit(res);
 }
 
 int	built_in_exe(t_cmd *cmd)

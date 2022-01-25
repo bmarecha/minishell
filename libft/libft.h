@@ -6,7 +6,7 @@
 /*   By: bmarecha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 12:44:51 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/11 17:01:43 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/25 17:55:56 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LIBFT_H
 # include <stdlib.h>
 # include <unistd.h>
+# include <errno.h>
 
 typedef struct s_list
 {

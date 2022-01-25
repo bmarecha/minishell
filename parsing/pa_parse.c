@@ -111,13 +111,12 @@ int	read_line(char ***env, struct sigaction *sa1, struct sigaction *sa2)
 		if (tokens)
 			exit = start_chain(tokens);
 		manage_sig(1, sa1, sa2);
-		if ((tokens && !free_all_cmd(tokens)) || exit == 3)
-			break ;
+		if (tokens)
+			free_all_cmd(tokens);
 		line = reading(line, env);
 	}
 	rl_clear_history();
-	if (!exit)
-		ft_putstr("exit\n");
+	ft_putstr("exit\n");
 	return (0);
 }
 
