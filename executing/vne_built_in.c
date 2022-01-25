@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 01:25:45 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/25 20:19:32 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/25 21:10:36 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,20 @@ char	**add_env(char **env, char *var)
 
 	i = -1;
 	while (env[++i])
-		if (!ft_strncmp(var, env[i], ft_strchr(var, '=') - var))
+		if (!ft_strncmp(var, env[i], ft_strchr(var, '=') - var + 1))
 			break ;
 	if (env[i])
 	{
 		free(env[i]);
-		env[i] = var;
+		env[i] = ft_strdup(var);
 		return (env);
 	}
 	n = i;
 	while (env[n])
 		n++;
-	vne = malloc(sizeof(char *) * ++n + 1);
+	vne = malloc(sizeof(char *) * (++n + 1));
 	vne[n] = NULL;
-	vne[--n] = var;
+	vne[--n] = ft_strdup(var);
 	while (--n >= 0)
 		vne[n] = env[n];
 	free(env);
@@ -48,7 +48,7 @@ char	**remove_env(char **env, char *var)
 
 	i = -1;
 	while (env[++i])
-		if (!ft_strncmp(var, env[i], ft_strlen(var)))
+		if (!ft_strncmp(var, env[i], ft_strlen(var)) && env[i][ft_strlen(var)] == '=')
 			break ;
 	if (!env[i])
 		return (env);
@@ -64,6 +64,7 @@ char	**remove_env(char **env, char *var)
 		else
 			vne[n] = env[n + 1];
 	}
+	free(env[i]);
 	free(env);
 	return (vne);
 }
