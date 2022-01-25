@@ -6,7 +6,7 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 19:48:16 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/24 20:29:08 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/25 18:34:17 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,6 @@ int	start_chain(t_cmd *cmd)
 	else
 		forking_cmd(infd, cmd, -1);
 	while (waitpid(-1, &status, WUNTRACED) > 0)
-		if (WEXITSTATUS(status) && WEXITSTATUS(status) != 3)
-			write(2, "Error on a child process.\n", 26);
+		;
 	return (WEXITSTATUS(status));
 }
