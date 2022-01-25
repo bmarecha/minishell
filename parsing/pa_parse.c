@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:17:36 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/24 20:20:44 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/25 15:38:19 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ int	read_line(char ***env, struct sigaction *sa1, struct sigaction *sa2)
 	while (line != NULL)
 	{
 		tokens = get_line(line, env, exit);
-		show_tokens(tokens);
 		manage_sig(0, sa1, sa2);
 		if (tokens)
 			exit = start_chain(tokens);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pa_heredoc.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bmarecha <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/25 15:53:10 by bmarecha          #+#    #+#             */
+/*   Updated: 2022/01/25 15:53:41 by bmarecha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parsing.h"
 
 void	heredoc_fill_file(char *read, char *delimiter, int fd)
@@ -5,7 +17,8 @@ void	heredoc_fill_file(char *read, char *delimiter, int fd)
 	read = readline(">");
 	while (read)
 	{
-		if (ft_strncmp(read, delimiter, ft_strlen(read) + ft_strlen(delimiter) + 2) != 0)
+		if (ft_strncmp(read, delimiter,
+				ft_strlen(read) + ft_strlen(delimiter) + 2) != 0)
 		{
 			write(fd, read, ft_strlen(read));
 			write(fd, "\n", 1);

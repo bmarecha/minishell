@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:53:56 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/24 20:56:58 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/25 15:52:47 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <readline/history.h>
 # include <fcntl.h>
 
-typedef struct	s_checkerror
+typedef struct s_checkerror
 {
 	int			i;
 	int			iq;
