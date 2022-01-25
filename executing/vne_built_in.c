@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 01:25:45 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/25 21:10:36 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/25 21:31:52 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ char	**remove_env(char **env, char *var)
 
 	i = -1;
 	while (env[++i])
-		if (!ft_strncmp(var, env[i], ft_strlen(var)) && env[i][ft_strlen(var)] == '=')
+		if (!ft_strncmp(var, env[i], ft_strlen(var))
+			&& env[i][ft_strlen(var)] == '=')
 			break ;
 	if (!env[i])
 		return (env);
@@ -59,10 +60,9 @@ char	**remove_env(char **env, char *var)
 	vne[--n] = NULL;
 	while (--n >= 0)
 	{
+		vne[n] = env[n + 1];
 		if (n < i)
 			vne[n] = env[n];
-		else
-			vne[n] = env[n + 1];
 	}
 	free(env[i]);
 	free(env);
@@ -105,7 +105,8 @@ int	ft_export(t_cmd *cmd)
 		while (var[++i])
 			if (var[i] == '=' || (!ft_isalnum((int)var[i]) && var[i] != '_'))
 				break ;
-		if (var[i] && !ft_isalnum((int)var[i]) && var[i] != '_' && var[i] != '=')
+		if (var[i] && !ft_isalnum((int)var[i])
+			&& var[i] != '_' && var[i] != '=')
 			join_write(STDERR_FILENO, "export: identifiant non valable :", var);
 		else if (var[i])
 			*(cmd->env) = add_env(*(cmd->env), var);
