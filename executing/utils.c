@@ -6,7 +6,7 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 15:08:40 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/24 19:58:26 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/25 16:07:56 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	free_split(char ***split)
 	free(*split);
 }
 
-void	free_all_cmd(t_cmd *cmd)
+int	free_all_cmd(t_cmd *cmd)
 {
 	while (cmd->next)
 		cmd = cmd->next;
@@ -56,10 +56,10 @@ void	free_all_cmd(t_cmd *cmd)
 		cmd = cmd->prev;
 		free(cmd->next);
 		cmd->next = NULL;
-		free_all_cmd(cmd);
+		return (free_all_cmd(cmd));
 	}
-	else
-		free(cmd);
+	free(cmd);
+	return (1);
 }
 
 void	join_write(int fd, char *str1, char *str2)
