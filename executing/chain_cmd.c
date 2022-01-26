@@ -6,7 +6,7 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 19:48:16 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/25 18:34:17 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/26 13:51:06 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,11 @@ int	dupout(int o_fd, t_cmd *cmd)
 int	execute_cmd(int i_fd, t_cmd *cmd, int o_fd)
 {
 	if (!dupin(i_fd, cmd))
-		return (-1);
+		return (1);
 	if (cmd->pipe == 2 || cmd->pipe == 0)
 		close(i_fd);
 	if (!dupout(o_fd, cmd))
-		return (-1);
+		return (1);
 	if (cmd->pipe == 2 || cmd->pipe == 1)
 		if (close(o_fd))
 			return (-1);
@@ -83,7 +83,7 @@ int	execute_cmd(int i_fd, t_cmd *cmd, int o_fd)
 		return (built_in_exe(cmd));
 	cmd->name = get_real_cmd(cmd);
 	if (cmd->name == NULL)
-		return (-1);
+		return (127);
 	cmd->args[0] = cmd->name;
 	execve(cmd->name, cmd->args, *(cmd->env));
 	return (1);
@@ -98,12 +98,13 @@ int	forking_cmd(int i_fd, t_cmd *cmd, int o_fd)
 		return (-1);
 	else if (pid == 0)
 	{
-		exit(execute_cmd(i_fd, cmd, o_fd));
+		cmd->exit = execute_cmd(i_fd, cmd, o_fd);
+		exit(cmd->exit);
 		return (0);
 	}
 	if (i_fd != -1)
 		close(i_fd);
-	return (1);
+	return (pid);
 }
 
 int	start_chain(t_cmd *cmd)
