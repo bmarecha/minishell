@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 00:53:16 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/29 22:29:49 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/29 23:52:07 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_redir	*create_redirect(char *line, int *i, int type, t_cmd *act)
 		*i = *i + 1;
 	redir->access = 1;
 	if (type == 2)
-		redir->file = get_heredoc(line, i, act);
+		redir->file = get_heredoc(line, i, act, 0);
 	else
 	{
 		redir->file = get_word(line, i, act);

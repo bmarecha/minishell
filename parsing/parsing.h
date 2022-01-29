@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:53:56 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/29 23:39:36 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/29 23:54:52 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ void	take_command(char *line, int *i, t_cmd *act);
 t_cmd	*get_line(char *line, char ***env, int exit);
 int		read_line(char ***env, struct sigaction *sa1, struct sigaction *sa2);
 // HEREDOC
-char	*get_heredoc(char *line, int *i, t_cmd *act);
+char	*get_heredoc(char *line, int *i, t_cmd *act, int fail);
+void    show_error_heredoc(int s_line, char *delimiter);
 // REDIRECTIONS
 int		is_redirect(char c);
 void	clean_redir(t_cmd *act, int redirect);

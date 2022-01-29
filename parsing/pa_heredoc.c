@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 15:53:10 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/29 23:39:13 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/29 23:59:20 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,26 +50,19 @@ int	heredoc_fill_file(char *read, char *delimiter, int fd, t_cmd *act)
 		read = readline("> ");
 	}
 	if (read == NULL)
-	{
-		ft_putstr_fd("minishell: warning: here-document at line ", 2);
-		ft_putnbr_fd(s_line, 2);
-		ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
-		ft_putstr_fd(delimiter, 2);
-		ft_putstr_fd("')\n", 2);
-	}
+		show_error_heredoc(s_line, delimiter);
 	if (read)
 		free(read);
 	return (1);
 }
 
-char	*get_heredoc(char *line, int *i, t_cmd *act)
+char	*get_heredoc(char *line, int *i, t_cmd *act, int fail)
 {
 	char	*delimiter;
 	char	*read;
 	char	*file;
 	char	*temp;
 	int		fd;
-	int		fail;
 
 	read = NULL;
 	signal(SIGINT, SIG_IGN);
