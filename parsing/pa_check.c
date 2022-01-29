@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 01:44:32 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/21 06:16:09 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/29 23:35:52 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,15 @@ int	quote_check(char c, int in_quote)
 			return (2);
 	}
 	return (in_quote);
+}
+
+int	quote_in_word(char *str, int i)
+{
+	while (str[i] && str[i] != ' ' && str[i] != '|' && !is_redirect(str[i]))
+	{
+		if (str[i] == '\'' || str[i] == '\"')
+			return (1);
+		i++;
+	}
+	return (0);
 }

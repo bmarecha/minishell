@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:53:56 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/29 22:36:28 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/29 23:39:36 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_checkerror
 int		ft_whitespace(char c);
 int		is_pipe(char c);
 int		quote_check(char c, int in_quote);
+int		quote_in_word(char *str, int i);
 // INIT
 char	**copy_env(char **env);
 void	init_command(t_cmd *cmd, char ***env, int exit);
@@ -66,7 +67,7 @@ t_cmd	*check_error(char *line, t_cmd *tokens);
 int		go_to_pipe(char *line, int *i, t_cmd *cmd);
 // ENV
 char	*replace_with_env(char *word, int *i, t_cmd *act, int in_quote);
-char	*get_env_variable(char *word, t_cmd *act);
+char	*get_env_variable(char *word, t_cmd *act, int heredoc);
 // TEST
 void	show_red(t_cmd *tokens);
 void	show_tokens(t_cmd *tokens);

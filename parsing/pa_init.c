@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 02:05:24 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/29 22:27:35 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/29 23:37:31 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	init_command(t_cmd *cmd, char ***env, int exit)
 	cmd->exit = exit;
 	cmd->arg = 0;
 	cmd->fail = 0;
+	cmd->heredoc = 0;
 }
 
 void	check_init(t_checkerror *error)

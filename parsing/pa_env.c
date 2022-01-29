@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 05:20:31 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/29 06:22:53 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/29 23:20:57 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ char	*replace_with_env(char *word, int *i, t_cmd *act, int in_quote)
 	return (new);
 }
 
-char	*get_env_variable(char *word, t_cmd *act)
+char	*get_env_variable(char *word, t_cmd *act, int heredoc)
 {
 	int		i;
 	int		in_quote;
@@ -102,7 +102,8 @@ char	*get_env_variable(char *word, t_cmd *act)
 		return (NULL);
 	while (word[i])
 	{
-		in_quote = quote_check(word[i], in_quote);
+		if (!heredoc)
+			in_quote = quote_check(word[i], in_quote);
 		if (word[i] == '$' && (in_quote == 0 || in_quote == 2)
 			&& word[i + 1] != '\"'
 			&& word[i + 1] != 0 && !is_redirect(word[i + 1])

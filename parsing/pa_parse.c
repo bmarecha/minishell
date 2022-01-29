@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:17:36 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/29 22:36:49 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/29 23:22:10 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*get_word(char *str, int *len, t_cmd *act)
 		return (NULL);
 	if (*len != start)
 		word = ft_substr(str, start, *len - start);
-	word = get_env_variable(word, act);
+	word = get_env_variable(word, act, 0);
 	word = delete_quotes(word);
 	return (word);
 }
