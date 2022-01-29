@@ -6,7 +6,7 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 12:31:34 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/29 11:26:11 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/29 23:01:05 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,27 +53,29 @@ int	ft_alpha_print(char **tab)
 
 int	ft_export(t_cmd *cmd)
 {
-	int		n;
+	int		n[2];
 	int		i;
 	char	*var;
 
-	n = 0;
-	while (cmd->args[++n])
+	*n = 0;
+	n[1] = 0;
+	while (cmd->args[++(*n)])
 	{
 		i = -1;
-		var = cmd->args[n];
+		var = cmd->args[*n];
 		while (var[++i])
 			if (var[i] == '=' || (!ft_isalnum((int)var[i]) && var[i] != '_'))
 				break ;
 		if (i == 0 || (var[i]
 				&& !ft_isalnum((int)var[i]) && var[i] != 95 && var[i] != 61))
-			join_write(STDERR_FILENO, "export: identifiant non valable :", var);
+			n[1] = join_write(STDERR_FILENO,
+					"export: identifiant non valable :", var);
 		else if (var[i])
 			*(cmd->env) = add_env(*(cmd->env), var);
 		else
 			*(cmd->env) = add_spe_char(*(cmd->env), var);
 	}
-	if (n == 1)
+	if (*n == 1)
 		ft_alpha_print(*(cmd->env));
-	return (0);
+	return (n[1]);
 }
