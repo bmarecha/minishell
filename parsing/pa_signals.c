@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 03:18:22 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/29 21:53:45 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/29 22:16:28 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,6 @@ void	handle_sig_heredoc(int sig)
 {
 	(void)sig;
 	g_return = 130;
-	ft_putstr_fd("\r\n", 0);
-	rl_replace_line("", 0);
+	write(1, "\n", 1);
+	exit(3);
 }

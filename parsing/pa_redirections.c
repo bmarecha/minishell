@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 00:53:16 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/29 21:49:52 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/29 22:29:49 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,5 +125,7 @@ int	get_redirect(char *line, int *i, t_cmd *act)
 		return (go_to_pipe(line, i, act));
 	if (act->i_red && act->i_red->access == 0)
 		return (go_to_pipe(line, i, act));
+	if (act->fail == 1)
+		return (0);
 	return (1);
 }

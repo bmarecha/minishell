@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:17:36 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/29 21:49:30 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/29 22:36:49 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,7 @@ void	take_command(char *line, int *i, t_cmd *act)
 		if (is_redirect(line[*i]))
 		{
 			if (!get_redirect(line, i, act))
-			{
-				if (act->name)
-					free(act->name);
 				return ;
-			}
 		}
 		while (whitespace(line[*i]))
 			*i = *i + 1;
@@ -84,6 +80,8 @@ t_cmd	*get_line(char *line, char ***env, int exit)
 		while (whitespace(line[i]))
 			i++;
 		take_command(line, &i, act);
+		if (act->fail == 1)
+			return (act);
 		if (line[i])
 		{
 			new = malloc(sizeof(t_cmd));
@@ -110,8 +108,10 @@ int	read_line(char ***env, struct sigaction *sa1, struct sigaction *sa2)
 		tokens = get_line(line, env, g_return);
 		free(line);
 		manage_sig(0, sa1, sa2);
-		if (tokens)
+		if (tokens && !tokens->fail)
 			g_return = start_chain(tokens);
+		if (tokens->fail)
+			tokens = get_last_cmd(tokens);
 		manage_sig(1, sa1, sa2);
 		if (tokens)
 			free_all_cmd(tokens);

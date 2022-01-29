@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 16:43:45 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/28 23:30:10 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/29 22:25:30 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_cmd
 	int				pipe;
 	int				exit;
 	int				arg;
+	int				fail;
 
 	t_redir			*i_red;
 	t_redir			*o_red;

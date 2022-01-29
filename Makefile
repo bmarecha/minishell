@@ -5,6 +5,7 @@ SRCS	=	parsing/pa_init.c \
 			parsing/pa_test.c \
 			parsing/pa_utils1.c \
 			parsing/pa_utils2.c \
+			parsing/pa_utils3.c \
 			parsing/pa_redirections.c \
 			parsing/pa_env.c \
 			parsing/pa_error.c \

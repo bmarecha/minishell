@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:53:56 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/29 21:24:31 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/29 22:36:28 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <fcntl.h>
+# include <sys/wait.h>
 
 extern int	g_return;
 
@@ -80,5 +81,6 @@ char	*reading(char *line, char ***env);
 int		start_command(char *line, int *i, t_cmd *act);
 void	get_pipe(char *line, int *i, t_cmd *act);
 t_cmd	*get_first_cmd(t_cmd *cmd);
+t_cmd	*get_last_cmd(t_cmd *act);
 
 #endif
