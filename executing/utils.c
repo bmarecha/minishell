@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 15:08:40 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/25 18:44:58 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/29 11:56:39 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,14 @@ int	free_all_cmd(t_cmd *cmd)
 
 void	join_write(int fd, char *str1, char *str2)
 {
-	write(fd, str1, ft_strlen(str1));
-	write(fd, str2, ft_strlen(str2));
-	write(fd, "\n", 1);
+	char	*temp;
+	char	*joined;
+
+	temp = ft_strjoin(str2, "\n");
+	joined = ft_strjoin(str1, temp);
+	free(temp);
+	write(fd, joined, ft_strlen(joined));
+	free(joined);
 }
 
 int	ft_strcmp(const char *s1, const char *s2)
