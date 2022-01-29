@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 01:25:45 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/29 10:07:37 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/29 11:26:44 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	ft_envcmp(char *s1, char *s2)
 	}
 	if ((!s2[j] && s1[i] == '=') || (s2[j] == '=' && !s1[i]))
 		return (0);
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	return ((unsigned char)s1[i] - (unsigned char)s2[j]);
 }
 
 char	**add_env(char **env, char *var)
@@ -110,7 +110,7 @@ int	ft_unset(t_cmd *cmd)
 		while (var[++i])
 			if (!ft_isalnum((int)var[i]) && var[i] != '_')
 				break ;
-		if (var[i])
+		if (var[i] || i == 0)
 			join_write(STDERR_FILENO, "unset: identifiant non valable :", var);
 		else
 			*(cmd->env) = remove_env(*(cmd->env), var);
