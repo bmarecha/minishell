@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 16:42:41 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/25 20:13:37 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/29 14:28:27 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char	*find_path(char *cmd, char **paths)
 	while (paths[++i])
 	{
 		path = ft_strjoin(paths[i], cmd2);
-		if (!access(path, R_OK))
+		if (!access(path, X_OK))
 		{
 			free_split(&paths);
 			free(cmd2);
@@ -51,7 +51,7 @@ char	*get_real_cmd(t_cmd *cmd)
 		write(2, "Command name missing.\n", 22);
 		return (NULL);
 	}
-	if (!access(cmd->name, R_OK))
+	if (!access(cmd->name, X_OK))
 		return (cmd->name);
 	path = find_env("PATH", *cmd->env);
 	if (path == NULL)
