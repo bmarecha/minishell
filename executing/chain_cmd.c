@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   chain_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 19:48:16 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/29 12:10:45 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/29 21:12:28 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	dupin(int i_fd, t_cmd *cmd)
 	{
 		if (access(cmd->i_red->file, R_OK))
 		{
-			perror(cmd->i_red->file);
 			return (0);
 		}
 		fd = open(cmd->i_red->file, O_RDONLY);
@@ -45,7 +44,6 @@ int	dupout(int o_fd, t_cmd *cmd)
 	{
 		if (access(cmd->o_red->file, W_OK) && errno != ENOENT)
 		{
-			perror(cmd->o_red->file);
 			exit(-1);
 		}
 		if (cmd->o_red->type == 3)
@@ -76,6 +74,8 @@ int	execute_cmd(int i_fd, t_cmd *cmd, int o_fd)
 	if (o_fd != -1)
 		if (close(o_fd))
 			return (-1);
+	if (!cmd->name)
+		return (0);
 	if (!ft_strcmp(cmd->name, "pwd") || !ft_strcmp(cmd->name, "cd")
 		|| !ft_strcmp(cmd->name, "echo") || !ft_strcmp(cmd->name, "export")
 		|| !ft_strcmp(cmd->name, "env") || !ft_strcmp(cmd->name, "unset")
