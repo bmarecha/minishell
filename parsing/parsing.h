@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:53:56 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/28 23:30:57 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/29 18:53:20 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <readline/history.h>
 # include <fcntl.h>
 
-int	g_return;
+extern int	g_return;
 
 typedef struct s_checkerror
 {

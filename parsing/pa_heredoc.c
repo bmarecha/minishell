@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pa_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmarecha <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 15:53:10 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/25 15:53:41 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/29 18:56:28 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,16 @@
 
 void	heredoc_fill_file(char *read, char *delimiter, int fd)
 {
-	read = readline(">");
+	static int	line;
+
+	line++;
+	read = readline("> ");
 	while (read)
 	{
 		if (ft_strncmp(read, delimiter,
 				ft_strlen(read) + ft_strlen(delimiter) + 2) != 0)
 		{
+			line++;
 			write(fd, read, ft_strlen(read));
 			write(fd, "\n", 1);
 		}
@@ -27,6 +31,12 @@ void	heredoc_fill_file(char *read, char *delimiter, int fd)
 			break ;
 		free(read);
 		read = readline(">");
+	}
+	if (read == NULL)
+	{
+		ft_putstr_fd("minishell: warning: here-document at line ", 2);
+		ft_putnbr_fd(line, 2);
+		ft_putstr_fd(" delimited by end-of-file (wanted `eof')\n", 2);
 	}
 	if (read)
 		free(read);

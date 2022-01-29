@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:17:36 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/29 05:21:25 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/29 18:55:32 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,14 +97,13 @@ int	read_line(char ***env, struct sigaction *sa1, struct sigaction *sa2)
 	char	*line;
 	t_cmd	*tokens;
 
-	g_return = 0;
 	line = NULL;
 	manage_sig(1, sa1, sa2);
 	line = reading(line, env);
 	while (line != NULL)
 	{
 		tokens = get_line(line, env, g_return);
-		show_tokens(tokens);
+		//show_tokens(tokens);
 		free(line);
 		manage_sig(0, sa1, sa2);
 		if (tokens)
@@ -118,6 +117,8 @@ int	read_line(char ***env, struct sigaction *sa1, struct sigaction *sa2)
 	ft_putstr("exit\n");
 	return (0);
 }
+
+int g_return = 0;
 
 int	main(int ac, char **av, char **env)
 {
