@@ -6,7 +6,7 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 19:48:16 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/26 13:51:06 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/29 12:10:45 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,11 @@ int	execute_cmd(int i_fd, t_cmd *cmd, int o_fd)
 {
 	if (!dupin(i_fd, cmd))
 		return (1);
-	if (cmd->pipe == 2 || cmd->pipe == 0)
+	if (i_fd != -1)
 		close(i_fd);
 	if (!dupout(o_fd, cmd))
 		return (1);
-	if (cmd->pipe == 2 || cmd->pipe == 1)
+	if (o_fd != -1)
 		if (close(o_fd))
 			return (-1);
 	if (!ft_strcmp(cmd->name, "pwd") || !ft_strcmp(cmd->name, "cd")
@@ -89,7 +89,7 @@ int	execute_cmd(int i_fd, t_cmd *cmd, int o_fd)
 	return (1);
 }
 
-int	forking_cmd(int i_fd, t_cmd *cmd, int o_fd)
+int	forking_cmd(int i_fd, t_cmd *cmd, int o_fd, int oi_fd)
 {
 	pid_t	pid;
 
@@ -98,6 +98,8 @@ int	forking_cmd(int i_fd, t_cmd *cmd, int o_fd)
 		return (-1);
 	else if (pid == 0)
 	{
+		if (oi_fd != -1)
+			close(oi_fd);
 		cmd->exit = execute_cmd(i_fd, cmd, o_fd);
 		exit(cmd->exit);
 		return (0);
@@ -118,7 +120,7 @@ int	start_chain(t_cmd *cmd)
 	{
 		if (pipe(pipefd) == -1)
 			perror("Can't create pipe");
-		forking_cmd(infd, cmd, pipefd[1]);
+		forking_cmd(infd, cmd, pipefd[1], pipefd[0]);
 		close(pipefd[1]);
 		infd = pipefd[0];
 		cmd = cmd->next;
@@ -128,7 +130,7 @@ int	start_chain(t_cmd *cmd)
 			|| !ft_strcmp(cmd->name, "unset")))
 		return (built_in_exe(cmd));
 	else
-		forking_cmd(infd, cmd, -1);
+		forking_cmd(infd, cmd, -1, -1);
 	while (waitpid(-1, &status, WUNTRACED) > 0)
 		;
 	return (WEXITSTATUS(status));
