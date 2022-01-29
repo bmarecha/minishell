@@ -6,7 +6,7 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 16:50:08 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/29 09:56:34 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/29 22:47:48 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int		ft_cd(t_cmd *cmd);
 int		built_in_exe(t_cmd *cmd);
 char	*get_real_cmd(t_cmd *cmd);
 int		ft_alpha_print(char **tab);
-void	join_write(int fd, char *str1, char *str2);
+int		join_write(int fd, char *str1, char *str2);
 char	**add_env(char **env, char *var);
 
 #endif
