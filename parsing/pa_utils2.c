@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 04:54:34 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/25 22:45:24 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/29 05:26:33 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,6 @@ void	get_pipe(char *line, int *i, t_cmd *act)
 	}
 	if (!line[*i])
 		return ;
-	if (line[*i] == ';')
-	{
-		*i = *i + 1;
-		return ;
-	}
 	if (line[*i] == '|')
 	{
 		*i = *i + 1;

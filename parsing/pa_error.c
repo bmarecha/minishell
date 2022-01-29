@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 17:56:15 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/25 22:37:02 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/29 05:19:34 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,8 @@ t_cmd	*check_error(char *line, t_cmd *tokens)
 		e.iq = quote_check(line[e.i], e.iq);
 		e = check_error_two(line, e);
 		if (e.cti == 3 || e.cto == 3 || e.cp == 2
-			|| (line[e.i] == '>' && (e.cti != 0 || e.cp != 0))
-			|| (line[e.i] == '<' && (e.cto != 0 || e.cp != 0))
+			|| (line[e.i] == '>' && e.cti != 0)
+			|| (line[e.i] == '<' && e.cto != 0)
 			|| (line[e.i] == '|' && (e.cto != 0 || e.cti != 0)))
 			return (get_error(line[e.i], tokens));
 		e.i++;
