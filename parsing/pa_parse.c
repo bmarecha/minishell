@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:17:36 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/29 21:24:10 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/29 21:49:30 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,11 @@ void	take_command(char *line, int *i, t_cmd *act)
 		if (is_redirect(line[*i]))
 		{
 			if (!get_redirect(line, i, act))
+			{
+				if (act->name)
+					free(act->name);
 				return ;
+			}
 		}
 		while (whitespace(line[*i]))
 			*i = *i + 1;

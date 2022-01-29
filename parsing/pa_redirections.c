@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 00:53:16 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/29 21:10:04 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/29 21:49:52 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ t_redir	*create_redirect(char *line, int *i, int type, t_cmd *act)
 		}
 		else if (type == 1)
 		{
+			redir->access = 0;
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(redir->file, 2);
 			ft_putstr_fd(": Aucun fichier ou dossier de ce type\n", 2);
