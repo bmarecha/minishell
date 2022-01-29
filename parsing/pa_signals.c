@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 03:18:22 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/25 19:36:24 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/28 23:23:48 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,11 @@ void	manage_sig(int interactive, struct sigaction *s1, struct sigaction *s2)
 void	handle_sig(int sig)
 {
 	if (sig == SIGQUIT)
+	{
+		g_return = 131;
 		return ;
+	}
+	g_return = 130;
 	ft_putstr_fd("\n", 0);
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -42,9 +46,11 @@ void	handle_sig_two(int sig)
 {
 	if (sig == SIGQUIT)
 	{
+		g_return = 131;
 		ft_putstr_fd("Quit (core dumped)\n", 2);
 		return ;
 	}
+	g_return = 130;
 	ft_putstr_fd("\n", 0);
 	rl_on_new_line();
 	rl_replace_line("", 0);
