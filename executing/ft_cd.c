@@ -6,7 +6,7 @@
 /*   By: bmarecha <bmarecha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 16:31:39 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/28 18:11:30 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/29 19:09:19 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ static int	chdir_with_error(char *curpath, t_cmd *cmd)
 	free(path);
 	if (!chdir(curpath))
 	{
-		*cmd->env = add_env(*cmd->env, oldpwd);
+		*(cmd->env) = add_env(*(cmd->env), oldpwd);
+		free(oldpwd);
 		return (0);
 	}
 	if (errno == EACCES || errno == EFAULT)
@@ -34,6 +35,7 @@ static int	chdir_with_error(char *curpath, t_cmd *cmd)
 			"The directory specified in path does not exist.\n", 48);
 	if (errno == ENOMEM)
 		write(STDERR_FILENO, "Insufficient kernel memory was available.\n", 42);
+	free(oldpwd);
 	return (1);
 }
 

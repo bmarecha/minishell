@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 01:25:45 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/29 11:26:44 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/29 19:29:48 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ int	ft_env(t_cmd *cmd)
 	vne = *(cmd->env);
 	while (vne[++i])
 	{
-		if (vne[++i][0] != (char)18)
+		if (vne[i][0] != (char)18)
 		{
 			write(STDOUT_FILENO, vne[i], ft_strlen(vne[i]));
 			write(STDOUT_FILENO, "\n", 1);
