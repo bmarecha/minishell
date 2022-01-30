@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 00:53:16 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/30 11:03:23 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/30 12:03:21 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,44 +67,14 @@ t_redir	*create_redirect(char *line, int *i, int type, t_cmd *act)
 	t_redir		*redir;
 
 	redir = malloc(sizeof(t_redir) * 1);
+	redir->type = type;
 	while (whitespace(line[*i]))
 		*i = *i + 1;
 	redir->access = 1;
 	if (type == 2)
 		redir->file = get_heredoc(line, i, act, 0);
 	else
-	{
-		redir->file = get_word(line, i, act);
-		if (access(redir->file, F_OK) == 0)
-		{
-			if (type == 1 && access(redir->file, R_OK) == -1)
-			{
-				redir->access = 0;
-				ft_putstr_fd("minishell: ", 2);
-				ft_putstr_fd(redir->file, 2);
-				ft_putstr_fd(": Permission non accordée\n", 2);
-			}
-			else if (access(redir->file, W_OK) == -1)
-			{
-				redir->access = 0;
-				ft_putstr_fd("minishell: ", 2);
-				ft_putstr_fd(redir->file, 2);
-				ft_putstr_fd(": Permission non accordée\n", 2);
-			}
-		}
-		else if (type == 1)
-		{
-			redir->access = 0;
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(redir->file, 2);
-			ft_putstr_fd(": Aucun fichier ou dossier de ce type\n", 2);
-		}
-		if (type == 4)
-			close(open(redir->file, O_WRONLY | O_CREAT | O_TRUNC, 00666));
-		else if (type == 3)
-			close(open(redir->file, O_WRONLY | O_CREAT, 00666));
-	}
-	redir->type = type;
+		redir = show_error_redir(line, i, act, redir);
 	return (redir);
 }
 

@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 19:48:16 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/29 21:12:28 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/30 11:31:17 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	dupout(int o_fd, t_cmd *cmd)
 	{
 		if (access(cmd->o_red->file, W_OK) && errno != ENOENT)
 		{
-			exit(-1);
+			return (0);
 		}
 		if (cmd->o_red->type == 3)
 			fd = open(cmd->o_red->file, O_WRONLY | O_APPEND | O_CREAT, 00666);

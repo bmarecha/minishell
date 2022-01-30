@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 16:43:45 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/29 23:37:04 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/30 11:56:02 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,6 @@ char	*find_env(char *nail, char **env);
 int		start_chain(t_cmd *cmd);
 int		free_all_cmd(t_cmd *cmd);
 void	free_split(char ***split);
+int		join_write(int fd, char *str1, char *str2);
 
 #endif

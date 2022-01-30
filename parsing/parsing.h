@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:53:56 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/29 23:54:52 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/30 12:12:42 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,14 @@ t_cmd	*get_line(char *line, char ***env, int exit);
 int		read_line(char ***env, struct sigaction *sa1, struct sigaction *sa2);
 // HEREDOC
 char	*get_heredoc(char *line, int *i, t_cmd *act, int fail);
-void    show_error_heredoc(int s_line, char *delimiter);
+void	show_error_heredoc(int s_line, char *delimiter);
 // REDIRECTIONS
 int		is_redirect(char c);
 void	clean_redir(t_cmd *act, int redirect);
 int		wich_redirect(char *line, int *i);
 t_redir	*create_redirect(char *line, int *i, int type, t_cmd *act);
 int		get_redirect(char *line, int *i, t_cmd *act);
+t_redir	*show_error_redir(char *line, int *i, t_cmd *act, t_redir *redir);
 // SIGNALS
 void	manage_sig(int interactive, struct sigaction *s1, struct sigaction *s2);
 void	handle_sig(int sig);
@@ -84,5 +85,6 @@ int		start_command(char *line, int *i, t_cmd *act);
 void	get_pipe(char *line, int *i, t_cmd *act);
 t_cmd	*get_first_cmd(t_cmd *cmd);
 t_cmd	*get_last_cmd(t_cmd *act);
+t_cmd	*create_cmd_malloc(char ***env, int exit);
 
 #endif

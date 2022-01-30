@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 05:20:31 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/29 23:20:57 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/30 11:42:09 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ char	*replace_in_word(char *word, int *i, int *start, int in_quote)
 	*i = *i + 1;
 	var = calloc(ft_strlen(word) + 1, sizeof(char));
 	while (!ft_whitespace(word[*i]) && word[*i] && word[*i] != '$'
-		&& word[*i] != '\"' && word[*i] != '\'' && (!is_pipe(word[*i]) || in_quote)
+		&& word[*i] != '\"' && word[*i] != '\''
+		&& (!is_pipe(word[*i]) || in_quote)
 		&& (!is_redirect(word[*i]) || in_quote))
 	{
 		var[j] = word[*i];

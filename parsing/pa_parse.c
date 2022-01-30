@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 17:17:36 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/29 23:22:10 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/30 12:18:02 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,7 @@ t_cmd	*get_line(char *line, char ***env, int exit)
 	int		i;
 
 	i = 0;
-	act = malloc(sizeof(t_cmd));
-	init_command(act, env, exit);
+	act = create_cmd_malloc(env, exit);
 	if (!check_error(line, act))
 		return (NULL);
 	while (line[i])
@@ -84,8 +83,7 @@ t_cmd	*get_line(char *line, char ***env, int exit)
 			return (act);
 		if (line[i])
 		{
-			new = malloc(sizeof(t_cmd));
-			init_command(new, env, exit);
+			new = create_cmd_malloc(env, exit);
 			new->prev = act;
 			act->next = new;
 			act = new;
@@ -110,7 +108,7 @@ int	read_line(char ***env, struct sigaction *sa1, struct sigaction *sa2)
 		manage_sig(0, sa1, sa2);
 		if (tokens && !tokens->fail)
 			g_return = start_chain(tokens);
-		if (tokens->fail)
+		if (tokens && tokens->fail)
 			tokens = get_last_cmd(tokens);
 		manage_sig(1, sa1, sa2);
 		if (tokens)
@@ -122,7 +120,7 @@ int	read_line(char ***env, struct sigaction *sa1, struct sigaction *sa2)
 	return (0);
 }
 
-int g_return = 0;
+int	g_return = 0;
 
 int	main(int ac, char **av, char **env)
 {
