@@ -6,7 +6,7 @@
 /*   By: bmarecha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 18:13:56 by bmarecha          #+#    #+#             */
-/*   Updated: 2019/11/11 15:42:55 by bmarecha         ###   ########.fr       */
+/*   Updated: 2022/01/30 11:18:32 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ size_t	ft_strlen(const char *s)
 	unsigned long	i;
 
 	i = 0;
+	if (!s)
+		return (0);
 	while (s[i])
 		i++;
 	return (i);

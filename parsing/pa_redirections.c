@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 00:53:16 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/29 23:52:07 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/30 11:03:23 by bmarecha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	clean_redir(t_cmd *act, int redirect)
 {
 	if (act->i_red && (redirect == 1 || redirect == 2))
 	{
+		if (act->i_red->type == 2)
+			unlink(act->i_red->file);
 		free(act->i_red->file);
 		free(act->i_red);
 		act->i_red = NULL;
@@ -97,10 +99,10 @@ t_redir	*create_redirect(char *line, int *i, int type, t_cmd *act)
 			ft_putstr_fd(redir->file, 2);
 			ft_putstr_fd(": Aucun fichier ou dossier de ce type\n", 2);
 		}
+		if (type == 4)
+			close(open(redir->file, O_WRONLY | O_CREAT | O_TRUNC, 00666));
 		else if (type == 3)
-			open(redir->file, O_WRONLY | O_CREAT | O_TRUNC, 00666);
-		else 
-			open(redir->file, O_WRONLY | O_CREAT, 00666);
+			close(open(redir->file, O_WRONLY | O_CREAT, 00666));
 	}
 	redir->type = type;
 	return (redir);
