@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 15:53:10 by bmarecha          #+#    #+#             */
-/*   Updated: 2022/01/30 11:39:33 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/30 12:46:19 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,11 @@ int	heredoc_fill_file(char *read, char *delimiter, int fd, t_cmd *act)
 	return (1);
 }
 
-void	get_heredoc_two(char *temp, int fail, t_cmd *act, int fd)
+void	get_heredoc_two(int fail, t_cmd *act, int fd)
 {
 	waitpid(-1, &fail, 0);
 	if (WEXITSTATUS(fail) == 3)
 	{
-		unlink(temp);
-		free(temp);
-		temp = NULL;
 		act = get_first_cmd(act);
 		act->fail = 1;
 	}
@@ -99,7 +96,7 @@ char	*get_heredoc(char *line, int *i, t_cmd *act, int fail)
 	}
 	if (!fork() && heredoc_fill_file(read, delimiter, fd, act) == 1)
 		exit(1);
-	get_heredoc_two(temp, fail, act, fd);
+	get_heredoc_two(fail, act, fd);
 	free(delimiter);
 	return (temp);
 }
