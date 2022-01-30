@@ -6,7 +6,7 @@
 /*   By: aaapatou <aaapatou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 04:54:34 by aaapatou          #+#    #+#             */
-/*   Updated: 2022/01/29 21:50:39 by aaapatou         ###   ########.fr       */
+/*   Updated: 2022/01/30 12:32:11 by aaapatou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,11 @@ int	start_command(char *line, int *i, t_cmd *act)
 	}
 	act->name = get_word(line, i, act);
 	if (act->name == NULL)
+	{
+		if (is_pipe(line[*i]) || line[*i] == 0)
+			get_pipe(line, i, act);
 		return (0);
+	}
 	while (whitespace(line[*i]))
 		*i = *i + 1;
 	act->args = calloc(calcul_arg(line, *i) + 3, sizeof(char *));
